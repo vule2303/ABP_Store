@@ -62,6 +62,18 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 }
             });
         }
+        if (await _scopeManager.FindByNameAsync("Store.Admin") == null)
+        {
+            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = "Store.Admin",
+                DisplayName = "Store Admin API",
+                Resources =
+                {
+                    "Store.Admin"
+                }
+            });
+        }
     }
 
     private async Task CreateApplicationsAsync()
@@ -82,10 +94,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         var webClientId = configurationSection["Store_Web:ClientId"];
         if (!webClientId.IsNullOrWhiteSpace())
         {
-            var webClientRootUrl = configurationSection["Store_Web:RootUrl"].EnsureEndsWith('/');
-
-            /* Store_Web client is only needed if you created a tiered
-             * solution. Otherwise, you can delete this client. */
+            var webClientRootUrl = configurationSection["Store_Web:RootUrl"].EnsureEndsWith('/');         
             await CreateApplicationAsync(
                 name: webClientId,
                 type: OpenIddictConstants.ClientTypes.Confidential,
@@ -103,79 +112,28 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 postLogoutRedirectUri: $"{webClientRootUrl}signout-callback-oidc"
             );
         }
-
-        //Console Test / Angular Client
-        var consoleAndAngularClientId = configurationSection["Store_App:ClientId"];
-        if (!consoleAndAngularClientId.IsNullOrWhiteSpace())
+        //Admin Client
+        var webAdminClientId = configurationSection["Store_Admin:ClientId"];
+        if (!webAdminClientId.IsNullOrWhiteSpace())
         {
-            var consoleAndAngularClientRootUrl = configurationSection["Store_App:RootUrl"]?.TrimEnd('/');
+            var webAdminClientRootUrl = configurationSection["Store_Web:RootUrl"].EnsureEndsWith('/');
             await CreateApplicationAsync(
-                name: consoleAndAngularClientId,
-                type: OpenIddictConstants.ClientTypes.Public,
-                consentType: OpenIddictConstants.ConsentTypes.Implicit,
-                displayName: "Console Test / Angular Application",
-                secret: null,
-                grantTypes: new List<string>
-                {
-                    OpenIddictConstants.GrantTypes.AuthorizationCode,
-                    OpenIddictConstants.GrantTypes.Password,
-                    OpenIddictConstants.GrantTypes.ClientCredentials,
-                    OpenIddictConstants.GrantTypes.RefreshToken
-                },
-                scopes: commonScopes,
-                redirectUri: consoleAndAngularClientRootUrl,
-                clientUri: consoleAndAngularClientRootUrl,
-                postLogoutRedirectUri: consoleAndAngularClientRootUrl
-            );
-        }
-
-        // Blazor Client
-        var blazorClientId = configurationSection["Store_Blazor:ClientId"];
-        if (!blazorClientId.IsNullOrWhiteSpace())
-        {
-            var blazorRootUrl = configurationSection["Store_Blazor:RootUrl"].TrimEnd('/');
-
-            await CreateApplicationAsync(
-                name: blazorClientId,
-                type: OpenIddictConstants.ClientTypes.Public,
-                consentType: OpenIddictConstants.ConsentTypes.Implicit,
-                displayName: "Blazor Application",
-                secret: null,
-                grantTypes: new List<string>
-                {
-                    OpenIddictConstants.GrantTypes.AuthorizationCode,
-                },
-                scopes: commonScopes,
-                redirectUri: $"{blazorRootUrl}/authentication/login-callback",
-                clientUri: blazorRootUrl,
-                postLogoutRedirectUri: $"{blazorRootUrl}/authentication/logout-callback"
-            );
-        }
-
-        // Blazor Server Tiered Client
-        var blazorServerTieredClientId = configurationSection["Store_BlazorServerTiered:ClientId"];
-        if (!blazorServerTieredClientId.IsNullOrWhiteSpace())
-        {
-            var blazorServerTieredRootUrl = configurationSection["Store_BlazorServerTiered:RootUrl"].EnsureEndsWith('/');
-
-            await CreateApplicationAsync(
-                name: blazorServerTieredClientId,
+                name: webClientId,
                 type: OpenIddictConstants.ClientTypes.Confidential,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
-                displayName: "Blazor Server Application",
-                secret: configurationSection["Store_BlazorServerTiered:ClientSecret"] ?? "1q2w3e*",
+                displayName: "Admin Application",
+                secret: configurationSection["Store_Admin:ClientSecret"] ?? "1q2w3e*",
                 grantTypes: new List<string> //Hybrid flow
                 {
                     OpenIddictConstants.GrantTypes.AuthorizationCode,
                     OpenIddictConstants.GrantTypes.Implicit
                 },
                 scopes: commonScopes,
-                redirectUri: $"{blazorServerTieredRootUrl}signin-oidc",
-                clientUri: blazorServerTieredRootUrl,
-                postLogoutRedirectUri: $"{blazorServerTieredRootUrl}signout-callback-oidc"
+                redirectUri: $"{webAdminClientRootUrl}signin-oidc",
+                clientUri: webAdminClientRootUrl,
+                postLogoutRedirectUri: $"{webAdminClientRootUrl}signout-callback-oidc"
             );
         }
-
         // Swagger Client
         var swaggerClientId = configurationSection["Store_Swagger:ClientId"];
         if (!swaggerClientId.IsNullOrWhiteSpace())

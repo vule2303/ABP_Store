@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Store.Data;
 using Serilog;
 using Volo.Abp;
+using Store.Seeding;
 
 namespace Store.DbMigrator;
 
@@ -35,6 +36,10 @@ public class DbMigratorHostedService : IHostedService
                 .ServiceProvider
                 .GetRequiredService<StoreDbMigrationService>()
                 .MigrateAsync();
+            await application
+                .ServiceProvider
+                .GetRequiredService<IdentityDataSeeder>()
+                .SeedAsync("admin@store.com.vn","Abc@123$");
 
             await application.ShutdownAsync();
 
