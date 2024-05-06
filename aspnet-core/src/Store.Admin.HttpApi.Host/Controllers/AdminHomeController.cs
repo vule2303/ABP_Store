@@ -3,7 +3,7 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace Store.Admin.Controllers;
 
-public class AdminHomeController : AbpController
+public class HomeController : AbpController
 {
     public ActionResult Index()
     {

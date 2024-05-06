@@ -12,7 +12,7 @@ using Volo.Abp.TenantManagement;
 namespace Store.Admin;
 
 [DependsOn(
-    typeof(StoreAdminApplicationContractsModule),
+    typeof(StoreApplicationContractsModule),
     typeof(AbpAccountHttpApiModule),
     typeof(AbpIdentityHttpApiModule),
     typeof(AbpPermissionManagementHttpApiModule),

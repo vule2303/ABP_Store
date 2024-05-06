@@ -56,7 +56,7 @@ public class StoreAuthServerModule : AbpModule
         {
             builder.AddValidation(options =>
             {
-                options.AddAudiences("Store");
+                options.AddAudiences("Store","Store.Admin");
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });

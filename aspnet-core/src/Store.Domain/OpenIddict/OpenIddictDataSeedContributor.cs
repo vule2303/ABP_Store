@@ -85,16 +85,45 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             OpenIddictConstants.Permissions.Scopes.Phone,
             OpenIddictConstants.Permissions.Scopes.Profile,
             OpenIddictConstants.Permissions.Scopes.Roles,
-            "Store"
         };
+        var adminScopes = new List<string>();
+        adminScopes.AddRange(commonScopes);
+        adminScopes.Add("Store.Admin");
 
+        var clientScopes = new List<string>();
+        clientScopes.AddRange(commonScopes);
+        clientScopes.Add("Store");
         var configurationSection = _configuration.GetSection("OpenIddict:Applications");
+
+        //Admin Client
+        var webAdminClientId = configurationSection["Store_Admin:ClientId"];
+        if (!webAdminClientId.IsNullOrWhiteSpace())
+        {
+            var adminWebClientRootUrl = configurationSection["Store_Admin:RootUrl"].TrimEnd('/');
+            await CreateApplicationAsync(
+                name: webAdminClientId,
+                type: OpenIddictConstants.ClientTypes.Confidential,
+                consentType: OpenIddictConstants.ConsentTypes.Implicit,
+                displayName: "Admin Application",
+                secret: configurationSection["Store_Admin:ClientSecret"] ?? "1q2w3e*",
+                grantTypes: new List<string> //Hybrid flow
+                {
+                    OpenIddictConstants.GrantTypes.Password,
+                    OpenIddictConstants.GrantTypes.RefreshToken,
+                    OpenIddictConstants.GrantTypes.Implicit
+                },
+                scopes: adminScopes,
+                redirectUri: adminWebClientRootUrl,
+                clientUri: adminWebClientRootUrl,
+                postLogoutRedirectUri: adminWebClientRootUrl
+            );
+        }
 
         //Web Client
         var webClientId = configurationSection["Store_Web:ClientId"];
         if (!webClientId.IsNullOrWhiteSpace())
         {
-            var webClientRootUrl = configurationSection["Store_Web:RootUrl"].EnsureEndsWith('/');         
+            var webClientRootUrl = configurationSection["Store_Web:RootUrl"].EnsureEndsWith('/');
             await CreateApplicationAsync(
                 name: webClientId,
                 type: OpenIddictConstants.ClientTypes.Confidential,
@@ -106,51 +135,29 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                     OpenIddictConstants.GrantTypes.AuthorizationCode,
                     OpenIddictConstants.GrantTypes.Implicit
                 },
-                scopes: commonScopes,
+                scopes: clientScopes,
                 redirectUri: $"{webClientRootUrl}signin-oidc",
                 clientUri: webClientRootUrl,
                 postLogoutRedirectUri: $"{webClientRootUrl}signout-callback-oidc"
             );
         }
-        //Admin Client
-        var webAdminClientId = configurationSection["Store_Admin:ClientId"];
-        if (!webAdminClientId.IsNullOrWhiteSpace())
-        {
-            var webAdminClientRootUrl = configurationSection["Store_Web:RootUrl"].EnsureEndsWith('/');
-            await CreateApplicationAsync(
-                name: webClientId,
-                type: OpenIddictConstants.ClientTypes.Confidential,
-                consentType: OpenIddictConstants.ConsentTypes.Implicit,
-                displayName: "Admin Application",
-                secret: configurationSection["Store_Admin:ClientSecret"] ?? "1q2w3e*",
-                grantTypes: new List<string> //Hybrid flow
-                {
-                    OpenIddictConstants.GrantTypes.AuthorizationCode,
-                    OpenIddictConstants.GrantTypes.Implicit
-                },
-                scopes: commonScopes,
-                redirectUri: $"{webAdminClientRootUrl}signin-oidc",
-                clientUri: webAdminClientRootUrl,
-                postLogoutRedirectUri: $"{webAdminClientRootUrl}signout-callback-oidc"
-            );
-        }
+
         // Swagger Client
-        var swaggerClientId = configurationSection["Store_Swagger:ClientId"];
+        var swaggerClientId = configurationSection["Store_Admin_Swagger:ClientId"];
         if (!swaggerClientId.IsNullOrWhiteSpace())
         {
-            var swaggerRootUrl = configurationSection["Store_Swagger:RootUrl"].TrimEnd('/');
-
+            var swaggerRootUrl = configurationSection["Store_Admin_Swagger:RootUrl"].TrimEnd('/');
             await CreateApplicationAsync(
                 name: swaggerClientId,
                 type: OpenIddictConstants.ClientTypes.Public,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
-                displayName: "Swagger Application",
+                displayName: "Swagger Admin Application",
                 secret: null,
                 grantTypes: new List<string>
                 {
                     OpenIddictConstants.GrantTypes.AuthorizationCode,
                 },
-                scopes: commonScopes,
+                scopes: adminScopes,
                 redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
                 clientUri: swaggerRootUrl
             );

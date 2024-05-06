@@ -79,7 +79,7 @@ public class StoreAdminHttpApiHostModule : AbpModule
                 options.FileSets.ReplaceEmbeddedByPhysical<StoreDomainModule>(
                     Path.Combine(hostingEnvironment.ContentRootPath,
                         $"..{Path.DirectorySeparatorChar}Store.Domain"));
-                options.FileSets.ReplaceEmbeddedByPhysical<StoreAdminApplicationContractsModule>(
+                options.FileSets.ReplaceEmbeddedByPhysical<StoreApplicationContractsModule>(
                     Path.Combine(hostingEnvironment.ContentRootPath,
                         $"..{Path.DirectorySeparatorChar}Store.Admin.Application.Contracts"));
                 options.FileSets.ReplaceEmbeddedByPhysical<StoreAdminApplicationModule>(
@@ -229,7 +229,7 @@ public class StoreAdminHttpApiHostModule : AbpModule
 
             var configuration = context.GetConfiguration();
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthScopes("Store");
+            options.OAuthScopes("Store.Admin");
         });
 
         app.UseAuditing();

@@ -19,7 +19,7 @@ namespace Store.Admin;
     typeof(AbpTenantManagementApplicationContractsModule),
     typeof(AbpObjectExtendingModule)
 )]
-public class StoreAdminApplicationContractsModule : AbpModule
+public class StoreApplicationContractsModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

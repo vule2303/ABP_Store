@@ -27,7 +27,7 @@ public class Program
 
         try
         {
-            Log.Information("Starting Store.Admin.HttpApi.Host.");
+            Log.Information("Starting Store.Admin.HttpApi.Host");
             var builder = WebApplication.CreateBuilder(args);
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()

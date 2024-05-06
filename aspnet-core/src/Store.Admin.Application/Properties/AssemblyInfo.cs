@@ -1,2 +1,2 @@
 ﻿using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleToAttribute("Store.Application.Tests")]
+[assembly:InternalsVisibleToAttribute("Store.Admin.Application.Tests")]

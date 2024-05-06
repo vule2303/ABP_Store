@@ -11,7 +11,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace Store.Admin;
 
 [DependsOn(
-    typeof(StoreAdminApplicationContractsModule),
+    typeof(StoreApplicationContractsModule),
     typeof(AbpAccountHttpApiClientModule),
     typeof(AbpIdentityHttpApiClientModule),
     typeof(AbpPermissionManagementHttpApiClientModule),
@@ -26,13 +26,13 @@ public class StoreAdminHttpApiClientModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddHttpClientProxies(
-            typeof(StoreAdminApplicationContractsModule).Assembly,
+            typeof(StoreApplicationContractsModule).Assembly,
             RemoteServiceName
         );
 
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<StoreAdminHttpApiClientModule>();
+            options.FileSets.AddEmbedded<StoreApplicationContractsModule>();
         });
     }
 }

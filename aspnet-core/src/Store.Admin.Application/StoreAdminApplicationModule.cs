@@ -12,7 +12,7 @@ namespace Store.Admin;
 [DependsOn(
     typeof(StoreDomainModule),
     typeof(AbpAccountApplicationModule),
-    typeof(StoreAdminApplicationContractsModule),
+    typeof(StoreApplicationContractsModule),
     typeof(AbpIdentityApplicationModule),
     typeof(AbpPermissionManagementApplicationModule),
     typeof(AbpTenantManagementApplicationModule),
