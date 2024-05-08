@@ -10,16 +10,16 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44351/',
+    issuer: 'https://localhost:5000/',
     redirectUri: baseUrl,
-    clientId: 'Store_App',
+    clientId: 'Store_Admin',
     responseType: 'code',
-    scope: 'offline_access Store',
+    scope: 'offline_access Store.Admin',
     requireHttps: true,
   },
   apis: {
     default: {
-      url: 'https://localhost:44354',
+      url: 'https://localhost:5001',
       rootNamespace: 'Store',
     },
   },
