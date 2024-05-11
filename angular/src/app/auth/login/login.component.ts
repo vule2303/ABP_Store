@@ -19,9 +19,8 @@ import { AuthService } from 'src/app/shared/services/auth.service';
         }
     `]
 })
-export class LoginComponent implements OnDestroy{
-
-    private ngUnSubscribe = new Subject<void>();
+export class LoginComponent implements OnDestroy {
+    private ngUnsubscribe = new Subject<void>();
     valCheck: string[] = ['remember'];
 
     password!: string;
@@ -29,32 +28,34 @@ export class LoginComponent implements OnDestroy{
     loginForm: FormGroup;
 
     constructor(
-        public layoutService: LayoutService, 
-        private fb: FormBuilder, 
-        private authService: AuthService, 
-        private router: Router
-    ) { 
-        this.loginForm = this.fb.group({
-            username: new FormControl('', Validators.required),
-            password: new FormControl('', Validators.required)
-        });
-    }
+    public layoutService: LayoutService,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+    ) {
+    this.loginForm = this.fb.group({
+        username: new FormControl('', Validators.required),
+        password: new FormControl('', Validators.required),
+    });
+}
+
     login() {
-        var request: LoginRequestDto = {
-            username: this.loginForm.controls['username'].value,
-            password: this.loginForm.controls['password'].value
-        };
-        this.authService
+    var request: LoginRequestDto = {
+        username: this.loginForm.controls['username'].value,
+        password: this.loginForm.controls['password'].value,
+    };
+    this.authService
         .login(request)
-        .pipe(takeUntil(this.ngUnSubscribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
             localStorage.setItem(ACCESS_TOKEN, res.access_token);
             localStorage.setItem(REFRESH_TOKEN, res.refresh_token);
             this.router.navigate(['']);
         });
     }
+
     ngOnDestroy(): void {
-        this.ngUnSubscribe.next();
-        this.ngUnSubscribe.complete();
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
     }
 }
