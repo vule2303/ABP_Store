@@ -6,13 +6,14 @@ export const environment = {
   production: false,
   application: {
     baseUrl,
-    name: 'Store',
+    name: 'Store Admin',
     logoUrl: '',
   },
   oAuthConfig: {
     issuer: 'https://localhost:5000/',
     redirectUri: baseUrl,
     clientId: 'Store_Admin',
+    dummyClientSecret: '1q2w3e*',
     responseType: 'code',
     scope: 'offline_access Store.Admin',
     requireHttps: true,
@@ -20,7 +21,7 @@ export const environment = {
   apis: {
     default: {
       url: 'https://localhost:5001',
-      rootNamespace: 'Store',
+      rootNamespace: 'Store.Admin',
     },
   },
 } as Environment;

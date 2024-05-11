@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/app/shared/constants/keys.const';
+import { LoginRequestDto } from 'src/app/shared/models/login-request.dto';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -13,11 +19,37 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
         }
     `]
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy{
 
+    private ngUnSubscribe = new Subject<void>();
     valCheck: string[] = ['remember'];
 
     password!: string;
 
-    constructor(public layoutService: LayoutService) { }
+    loginForm: FormGroup;
+
+    constructor(public layoutService: LayoutService, private fb: FormBuilder, private authService: AuthService, private router: Router) { 
+        this.loginForm = this.fb.group({
+            username: new FormControl('', Validators.required),
+            password: new FormControl('', Validators.required)
+        });
+    }
+    login() {
+        var request: LoginRequestDto = {
+            username: this.loginForm.controls['username'].value,
+            password: this.loginForm.controls['password'].value
+        };
+        this.authService
+        .login(request)
+        .pipe(takeUntil(this.ngUnSubscribe))
+        .subscribe(res => {
+            localStorage.setItem(ACCESS_TOKEN, res.access_token);
+            localStorage.setItem(REFRESH_TOKEN, res.refresh_token);
+            this.router.navigate(['']);
+        });
+    }
+    ngOnDestroy(): void {
+        this.ngUnSubscribe.next();
+        this.ngUnSubscribe.complete();
+    }
 }
