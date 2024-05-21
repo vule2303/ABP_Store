@@ -18,7 +18,6 @@ namespace Store.Admin.Products
         public bool Visiblity { get; set; }
         public bool IsActive { get; set; }
         public Guid CategoryId { get; set; }
-        public string SeoMetaDescription { get; set; }
         public string ThumbnailPicture { get; set; }
     }
 }

@@ -11,22 +11,21 @@ using Store.Products;
 namespace Store.Admin.Products
 {
     public class ProductsAppService : CrudAppService<
-        Product, 
-        ProductDto, 
-        Guid, 
-        PagedResultRequestDto, 
-        CreateUpdateProductDto, 
-        CreateUpdateProductDto>, IProductAppService
+        Product,
+        ProductDto,
+        Guid,
+        PagedResultRequestDto,
+        CreateUpdateProductDto,
+        CreateUpdateProductDto>, IProductsAppService
     {
-        private readonly IRepository<Product, Guid> _repository;
-        public ProductsAppService(IRepository<Product, Guid> repository) : base(repository)
+        public ProductsAppService(IRepository<Product, Guid> repository)
+            : base(repository)
         {
         }
-
-        public async Task DeleteMultipAsync(IEnumerable<Guid> ids)
+        public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
-            await UnitOfWorkManager.Current.SaveChangesAsync(); 
+            await UnitOfWorkManager.Current.SaveChangesAsync();
         }
 
         public async Task<List<ProductInListDto>> GetListAllAsync()
@@ -37,13 +36,11 @@ namespace Store.Admin.Products
 
             return ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data);
         }
-
-        public async Task<PagedResultDto<ProductInListDto>> GetListWithFilterAsync(BaseListFilterDto input)
+        public async Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
-            var query = await _repository.GetQueryableAsync();
-            query = query
-                .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Name.Contains(input.Keyword));
-            
+            var query = await Repository.GetQueryableAsync();
+            query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Name.Contains(input.Keyword));
+
             var totalCount = await AsyncExecuter.LongCountAsync(query);
             var data = await AsyncExecuter.ToListAsync(query.Skip(input.SkipCount).Take(input.MaxResultCount));
 

@@ -28,6 +28,15 @@ export class ProductCategoriesService {
     { apiName: this.apiName });
   
 
+  deleteMultiple = (ids: string[]) =>
+    this.restService.request<any, void>({
+      method: 'DELETE',
+      url: '/api/app/product-categories/multiple',
+      params: { ids },
+    },
+    { apiName: this.apiName });
+  
+
   get = (id: string) =>
     this.restService.request<any, ProductCategoryDto>({
       method: 'GET',
@@ -41,6 +50,14 @@ export class ProductCategoriesService {
       method: 'GET',
       url: '/api/app/product-categories',
       params: { maxResultCount: input.maxResultCount, skipCount: input.skipCount },
+    },
+    { apiName: this.apiName });
+  
+
+  getListAll = () =>
+    this.restService.request<any, ProductCategoryInListDto[]>({
+      method: 'GET',
+      url: '/api/app/product-categories/all',
     },
     { apiName: this.apiName });
   

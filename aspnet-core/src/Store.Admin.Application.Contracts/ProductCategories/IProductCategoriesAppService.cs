@@ -10,5 +10,7 @@ namespace Store.Admin.ProductCategories
         <ProductCategoryDto, Guid, PagedResultRequestDto, CreateUpdateProductCategoryDto, CreateUpdateProductCategoryDto>
     {
         Task<PagedResultDto<ProductCategoryInListDto>> GetListWithFilterAsync(BaseListFilterDto input);
+        Task<List<ProductCategoryInListDto>> GetListAllAsync();
+        Task DeleteMultipleAsync(IEnumerable<Guid> ids);
     }
 }

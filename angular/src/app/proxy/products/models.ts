@@ -31,10 +31,15 @@ export interface ProductDto {
 }
 
 export interface ProductInListDto extends EntityDto<string> {
+  manufacturerId?: string;
   name?: string;
   code?: string;
+  slug?: string;
+  productType: ProductType;
+  sku?: string;
   sortOrder: number;
-  coverPicture?: string;
-  visibility: boolean;
+  visiblity: boolean;
   isActive: boolean;
+  categoryId?: string;
+  thumbnailPicture?: string;
 }

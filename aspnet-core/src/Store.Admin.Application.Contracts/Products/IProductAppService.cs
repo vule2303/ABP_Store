@@ -6,11 +6,15 @@ using Volo.Abp.Application.Dtos;
 using System.Threading.Tasks;
 namespace Store.Admin.Products
 {
-    public interface IProductAppService : ICrudAppService
-        <ProductDto, Guid, PagedResultRequestDto, CreateUpdateProductDto, CreateUpdateProductDto>
+    public interface IProductsAppService : ICrudAppService
+       <ProductDto,
+       Guid,
+       PagedResultRequestDto,
+       CreateUpdateProductDto,
+       CreateUpdateProductDto>
     {
-        Task<PagedResultDto<ProductInListDto>> GetListWithFilterAsync(BaseListFilterDto input);
+        Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(BaseListFilterDto input);
         Task<List<ProductInListDto>> GetListAllAsync();
-        Task DeleteMultipAsync(IEnumerable<Guid> ids);
+        Task DeleteMultipleAsync(IEnumerable<Guid> ids);
     }
 }

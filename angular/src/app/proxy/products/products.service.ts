@@ -28,10 +28,10 @@ export class ProductsService {
     { apiName: this.apiName });
   
 
-  deleteMultip = (ids: string[]) =>
+  deleteMultiple = (ids: string[]) =>
     this.restService.request<any, void>({
       method: 'DELETE',
-      url: '/api/app/products/multip',
+      url: '/api/app/products/multiple',
       params: { ids },
     },
     { apiName: this.apiName });
@@ -62,10 +62,10 @@ export class ProductsService {
     { apiName: this.apiName });
   
 
-  getListWithFilter = (input: BaseListFilterDto) =>
+  getListFilter = (input: BaseListFilterDto) =>
     this.restService.request<any, PagedResultDto<ProductInListDto>>({
       method: 'GET',
-      url: '/api/app/products/with-filter',
+      url: '/api/app/products/filter',
       params: { keyword: input.keyword, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName });
