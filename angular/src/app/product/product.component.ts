@@ -1,5 +1,6 @@
 import { PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
 import { ProductInListDto, ProductsService } from '@proxy/products';
 import { takeUntil,Subject } from 'rxjs';
 @Component({
@@ -16,7 +17,13 @@ export class ProductComponent implements OnInit, OnDestroy{
   public skipCount: number = 0;
   public maxResultCount: number = 10;
   public totalCount: number;
-  constructor(private productService: ProductsService) {}
+
+  //Filter
+  productCategories: any[] = [];
+  keyword : string = '';
+  categoryId: string = '';
+
+  constructor(private productService: ProductsService, private productCategoryService: ProductCategoriesService) {}
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -24,12 +31,13 @@ export class ProductComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.loadData();
-    
+    this.loadProductCategories();
   }
 
   loadData(){
     this.productService.getListFilter({
-      keyword: '',
+      keyword: this.keyword,
+      categoryId: this.categoryId,
       maxResultCount: this.maxResultCount,
       skipCount: this.skipCount,
     })
@@ -42,4 +50,23 @@ export class ProductComponent implements OnInit, OnDestroy{
       error: () => {}
     });
   }
+
+  loadProductCategories(){
+    this.productCategoryService.getListAll()
+    .subscribe((response: ProductCategoryInListDto[]) => {
+      response.forEach(item => {
+        this.productCategories.push({
+          id: item.id,
+          name: item.name
+        });
+      })
+    })
+  }
+
+  pageChanged(event: any): void {
+    this.skipCount = (event.page - 1) * this.maxResultCount;
+    this.maxResultCount = event.rows;
+    this.loadData();
+  }
+
 }
