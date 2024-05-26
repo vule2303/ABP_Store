@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Store.Admin.Manufacturers;
 using Store.Admin.ProductCategories;
 using Store.Admin.Products;
+using Store.Manufacturers;
 using Store.ProductCategories;
 using Store.Products;
 
@@ -18,5 +20,9 @@ public class StoreAdminApplicationAutoMapperProfile : Profile
         CreateMap<Product, ProductDto>();
         CreateMap<Product, ProductInListDto>();
         CreateMap<CreateUpdateProductDto, Product>();
+        //Manufacturer
+        CreateMap<Manufacturer, ManufacturerDto>();
+        CreateMap<Manufacturer, ManufacturerInListDto>();
+        CreateMap<CreateUpdateManufacturerDto, Manufacturer>();
     }
 }

@@ -98,7 +98,7 @@ export class ProductComponent implements OnInit, OnDestroy{
   private toggleBlockUI(enabled: boolean) {
     enabled ? this.blockedPanel = true : setTimeout(() => {
       this.blockedPanel = false;
-    })
+    },1000)
   }
 
 }
