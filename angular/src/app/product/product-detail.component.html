@@ -4,9 +4,81 @@
     <div class="formgrid grid">
       <div class="field col-12">
         <label for="name"  class="block">Tên</label>
-        <input id="name" pInputText type="text" formControlName="name"ð/>
+        <input id="name" pInputText type="text" formControlName="name"ð class="w-full"/>
       </div>
-    </div>
+        <div class="field col-12">
+          <label for="code"  class="block">Code</label>
+          <input id="code" pInputText type="text" formControlName="code"ð class="w-full"/>
+        </div>
+        <div class="field col-12">
+          <label for="slug"  class="block">Slug</label>
+          <input id="slug" pInputText type="text" formControlName="slug"ð class="w-full"/>
+        </div>
+        <div class="field col-12">
+          <label for="sku"  class="block">SKU</label>
+          <input id="sku" pInputText type="text" formControlName="sku"ð class="w-full"/>
+        </div>
+        <div class="field col-12">
+          <label for="manufacturerId" class="block">Chọn nhà sản xuất</label>
+          <p-dropdown 
+            formControlName="manufacturerId" 
+            [showClear]="true"
+            [options]="manufacturers" 
+            placeholder="Chọn nhà sản xuất"
+            autoWidth="false"
+            [style]="{'width':'100%'}"
+          > 
+        </p-dropdown>
+        </div>
+        <div class="field col-12">
+          <label for="categoryId"  class="block">Danh mục</label>
+          <p-dropdown 
+            formControlName="categoryId" 
+            [showClear]="true"
+            [options]="productCategories" 
+            placeholder="Chọn danh mục"
+            autoWidth="false"
+            [style]="{'width':'100%'}"
+          >
+          </p-dropdown>
+        </div>
+        <div class="field col-12">
+          <label for="productType"  class="block">Loại sản phẩm</label>
+          <p-dropdown 
+            formControlName="productTypes" 
+            [showClear]="true"
+            [options]="productCategories" 
+            placeholder="Chọn loại"
+            autoWidth="false"
+            [style]="{'width':'100%'}"
+          > 
+          </p-dropdown>
+        </div>
+        <div class="field col-12">
+          <label for="sortOrder"  class="block">Thứ tự</label>
+          <p-inputNumber formControlName = "sortOrder"ð></p-inputNumber>
+        </div>
+        <div class="field col-12">
+          <label for="sellPrice"  class="block">Giá bán</label>
+          <p-inputNumber formControlName = "sellPrice"ð></p-inputNumber>
+        </div>
+        <div class="field checkbox col-12 md:col-3">
+          <p-checkbox formControlName="visiblity" binary="true" id="visiblity"></p-checkbox>
+          <label for="name"  class="block">Hiển thị</label>
+        </div>
+        <div class="field checkbox col-12 md:col-3">
+          <p-checkbox formControlName="isActive" binary="true" id="isActive"></p-checkbox>
+          <label for="isActive"  class="block">Kích hoạt</label>
+        </div>
+        <div class="field col-12">
+          <label for="seoMetaDescription"  class="block">Mô tả SEO</label>
+          <textarea id="seoMetaDescription" pInputTextarea type="text" formControlName="seoMetaDescription"ð class="w-full"> </textarea>
+        </div>
+        <div class="field col-12">
+          <label for="description"  class="block">Mô tả sản phẩm</label>
+          <p-editor formControlName="description" [style] ="{'height' : '320px'}"></p-editor>
+        </div>
+      </div>
     <ng-template pTemplate="footer">
       <button type="submit" pButton icon="fa fa-save" iconPos="left" label="Lưu lại"></button>
     </ng-template>
