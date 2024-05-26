@@ -1,8 +1,11 @@
 import { PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
-import { ProductInListDto, ProductsService } from '@proxy/products';
+import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { takeUntil,Subject } from 'rxjs';
+import { ProductDetailComponent } from './product-detail.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { NotificationService } from '../shared/services/notification.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -23,7 +26,12 @@ export class ProductComponent implements OnInit, OnDestroy{
   keyword : string = '';
   categoryId: string = '';
 
-  constructor(private productService: ProductsService, private productCategoryService: ProductCategoriesService) {}
+  constructor(
+    private productService: ProductsService, 
+    private productCategoryService: ProductCategoriesService,
+    private dialogService: DialogService,
+    private notificationService: NotificationService
+  ) {}
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -71,6 +79,20 @@ export class ProductComponent implements OnInit, OnDestroy{
     this.skipCount = (event.page - 1) * this.maxResultCount;
     this.maxResultCount = event.rows;
     this.loadData();
+  }
+
+  showAddModal(){
+    const ref = this.dialogService.open(ProductDetailComponent,{
+      header: 'Thêm mới sản phẩm',
+      width: '70%',
+    });
+
+    ref.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.notificationService.showSuccess("Thêm sản phẩm thành công");
+      }
+    });
   }
 
   private toggleBlockUI(enabled: boolean) {
