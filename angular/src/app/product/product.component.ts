@@ -16,6 +16,8 @@ export class ProductComponent implements OnInit, OnDestroy{
 
   blockedPanel: boolean = false;
   items: ProductInListDto[] = [];
+  public selectedItems: ProductInListDto[] = [];
+
   //pagination variables
   public skipCount: number = 0;
   public maxResultCount: number = 10;
@@ -63,16 +65,15 @@ export class ProductComponent implements OnInit, OnDestroy{
     });
   }
 
-  loadProductCategories(){
-    this.productCategoryService.getListAll()
-    .subscribe((response: ProductCategoryInListDto[]) => {
-      response.forEach(item => {
+  loadProductCategories() {
+    this.productCategoryService.getListAll().subscribe((response: ProductCategoryInListDto[]) => {
+      response.forEach(element => {
         this.productCategories.push({
-          id: item.id,
-          name: item.name
+          value: element.id,
+          label: element.name,
         });
-      })
-    })
+      });
+    });
   }
 
   pageChanged(event: any): void {
@@ -91,6 +92,28 @@ export class ProductComponent implements OnInit, OnDestroy{
       if (data) {
         this.loadData();
         this.notificationService.showSuccess("Thêm sản phẩm thành công");
+        this.selectedItems = [];
+      }
+    });
+  }
+
+  showEditModal(){
+    if(this.selectedItems.length == 0){
+      this.notificationService.showError("Bạn chưa chọn sản phẩm nào");
+      return;
+    }
+    const id = this.selectedItems[0].id;
+    const ref = this.dialogService.open(ProductDetailComponent,{
+      data: {id: id},
+      header: 'Cập nhật sản phẩm',
+      width: '70%',
+    });
+
+    ref.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.selectedItems = [];
+        this.notificationService.showSuccess("Cập nhật sản phẩm thành công");
       }
     });
   }

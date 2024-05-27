@@ -17,7 +17,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { EditorModule } from 'primeng/editor';
 import { StoreSharedModule } from '../shared/modules/store-shared.module';
-
+import { BadgeModule } from 'primeng/badge';
 @NgModule({
   declarations: [ProductComponent, ProductDetailComponent],
   imports: [
@@ -36,7 +36,8 @@ import { StoreSharedModule } from '../shared/modules/store-shared.module';
     CheckboxModule,
     InputTextareaModule,
     EditorModule,
-    StoreSharedModule
+    StoreSharedModule,
+    BadgeModule
   ],
 })
 export class ProductModule {}
