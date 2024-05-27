@@ -6,6 +6,7 @@ import { takeUntil,Subject } from 'rxjs';
 import { ProductDetailComponent } from './product-detail.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NotificationService } from '../shared/services/notification.service';
+import { ProductType } from '@proxy/store/products';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -97,14 +98,16 @@ export class ProductComponent implements OnInit, OnDestroy{
     });
   }
 
-  showEditModal(){
-    if(this.selectedItems.length == 0){
-      this.notificationService.showError("Bạn chưa chọn sản phẩm nào");
+  showEditModal() {
+    if (this.selectedItems.length == 0) {
+      this.notificationService.showError('Bạn phải chọn một bản ghi');
       return;
     }
     const id = this.selectedItems[0].id;
-    const ref = this.dialogService.open(ProductDetailComponent,{
-      data: {id: id},
+    const ref = this.dialogService.open(ProductDetailComponent, {
+      data: {
+        id: id,
+      },
       header: 'Cập nhật sản phẩm',
       width: '70%',
     });
@@ -113,11 +116,14 @@ export class ProductComponent implements OnInit, OnDestroy{
       if (data) {
         this.loadData();
         this.selectedItems = [];
-        this.notificationService.showSuccess("Cập nhật sản phẩm thành công");
+        this.notificationService.showSuccess('Thêm sản phẩm thành công');
       }
     });
   }
-
+  
+  getProductTypeName(value: number){
+    return ProductType[value];
+  }
   private toggleBlockUI(enabled: boolean) {
     enabled ? this.blockedPanel = true : setTimeout(() => {
       this.blockedPanel = false;

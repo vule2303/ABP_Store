@@ -40,6 +40,12 @@ namespace Store.Configurations.Products
 
             builder.Property(x => x.SeoMetaDescription)
              .HasMaxLength(250);
+
+            builder.Property(x => x.CreategoryName)
+          .HasMaxLength(250);
+
+            builder.Property(x => x.CreategorySlug)
+            .HasMaxLength(250);
         }
     }
 }

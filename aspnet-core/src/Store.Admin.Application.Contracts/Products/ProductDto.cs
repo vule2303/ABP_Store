@@ -16,7 +16,7 @@ namespace Store.Admin.Products
         public ProductType ProductType { get; set; }
         public string SKU { get; set; }
         public int SortOrder { get; set; }
-        public bool Visiblity { get; set; }
+        public bool Visibility { get; set; }
         public bool IsActive { get; set; }
         public Guid CategoryId { get; set; }
         public string SeoMetaDescription { get; set; }
@@ -24,5 +24,7 @@ namespace Store.Admin.Products
         public string ThumbnailPicture { get; set; }
         public double SellPrice { get; set; }
         public Guid Id { get; set;}
+        public string CreategoryName { get; set; }
+        public string CreategorySlug { get; set; }
     }
 }

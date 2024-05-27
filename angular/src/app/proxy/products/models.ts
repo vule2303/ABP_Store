@@ -10,7 +10,7 @@ export interface CreateUpdateProductDto {
   productType: ProductType;
   sku?: string;
   sortOrder: number;
-  visiblity: boolean;
+  visibility: boolean;
   isActive: boolean;
   sellPrice: number;
   categoryId?: string;
@@ -27,7 +27,7 @@ export interface ProductDto {
   productType: ProductType;
   sku?: string;
   sortOrder: number;
-  visiblity: boolean;
+  visibility: boolean;
   isActive: boolean;
   categoryId?: string;
   seoMetaDescription?: string;
@@ -35,6 +35,8 @@ export interface ProductDto {
   thumbnailPicture?: string;
   sellPrice: number;
   id?: string;
+  creategoryName?: string;
+  creategorySlug?: string;
 }
 
 export interface ProductInListDto extends EntityDto<string> {
@@ -45,10 +47,12 @@ export interface ProductInListDto extends EntityDto<string> {
   productType: ProductType;
   sku?: string;
   sortOrder: number;
-  visiblity: boolean;
+  visibility: boolean;
   isActive: boolean;
   categoryId?: string;
   thumbnailPicture?: string;
+  creategoryName?: string;
+  creategorySlug?: string;
 }
 
 export interface ProductListFilterDto extends BaseListFilterDto {

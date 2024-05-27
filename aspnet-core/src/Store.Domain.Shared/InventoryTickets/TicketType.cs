@@ -6,7 +6,7 @@ namespace Store.InventoryTickets
 {
     public enum TicketType
     {
-        Import,
-        Export
+        Import = 1,
+        Export = 2
     }
 }

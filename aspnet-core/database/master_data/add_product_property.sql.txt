@@ -1,0 +1,19 @@
+BEGIN TRANSACTION;
+GO
+
+EXEC sp_rename N'[AppProducts].[Visiblity]', N'Visibility', N'COLUMN';
+GO
+
+ALTER TABLE [AppProducts] ADD [CreategoryName] nvarchar(250) NULL;
+GO
+
+ALTER TABLE [AppProducts] ADD [CreategorySlug] nvarchar(250) NULL;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240527152639_Modify-Property-Product', N'6.0.5');
+GO
+
+COMMIT;
+GO
+

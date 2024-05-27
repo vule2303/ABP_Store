@@ -43,9 +43,9 @@
   </div>
   <!-- Table -->
   
-  <p-table #pnl [value]="items" [(selection)]="selectedItems">
+  <p-table #pnl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
     <ng-template pTemplate="header">
-        <tr>
+        <tr [pSelectableRow]="row">
             <th style="width: 10px;">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
@@ -60,7 +60,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-row>
-        <tr>
+        <tr [pSelectableRow]="row">
           <th style="width: 10px;">
             <span class="ui-column-title"></span>
             <p-tableCheckbox [value]="row"></p-tableCheckbox>
@@ -68,12 +68,12 @@
             <td>{{ row.code }}</td>
             <td>{{ row.sku }}</td>
             <td>{{ row.name }}</td>
-            <td>{{ row.productType }}</td>
-            <td>{{ row.categoryId }}</td>
+            <td>{{ getProductTypeName(row.productType) }}</td>
+            <td>{{ row.creategoryName }}</td>
             <td>{{ row.sortOrder }}</td>
             <td>
-              <p-badge *ngIf="row.visiblity == 1" severity ="success" value="Hiển thị"></p-badge>
-              <p-badge *ngIf="row.visiblity == 0" severity ="danger" value="Ẩn"></p-badge>
+              <p-badge *ngIf="row.visibility == 1" severity ="success" value="Hiển thị"></p-badge>
+              <p-badge *ngIf="row.visibility == 0" severity ="danger" value="Ẩn"></p-badge>
             </td>
             <td>
               <p-badge *ngIf="row.isActive == 1" severity ="success" value="Kích hoạt"></p-badge>
