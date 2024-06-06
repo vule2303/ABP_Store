@@ -7,6 +7,7 @@ import { ProductType, productTypeOptions } from '@proxy/store/products';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { UtilityService } from '../shared/services/utility.service';
+import { NotificationService } from '../shared/services/notification.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -30,7 +31,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private config: DynamicDialogConfig,
     private ref: DynamicDialogRef,
-    private utilService: UtilityService
+    private utilService: UtilityService,
+    private notificationSerivce: NotificationService
   ) {}
 
   validationMessages = {
@@ -117,11 +119,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         },
       });
   }
-
+//Save Change Method
   saveChange() {
-    console.log(this.form.value);
-    console.log(this.config.data);
     this.toggleBlockUI(true);
+    
     if(this.utilService.isEmpty(this.config.data?.id) == true){
       this.productService.create(this.form.value)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -130,9 +131,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           this.toggleBlockUI(false);
           this.ref.close(this.form.value);
         },
-        error: () => {
+        error: (err) => {
+          this.notificationSerivce.showError(err.error.error.message);
+
           this.toggleBlockUI(false);
-        }
+        },
       })
     }else{
         this.productService
@@ -143,9 +146,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
             this.toggleBlockUI(false);
             this.ref.close(this.form.value);
           },
-          error: () => {
+          error: (err) => {
+            this.notificationSerivce.showError(err.error.error.message);
             this.toggleBlockUI(false);
-          }
+          },
         })
     }
   }

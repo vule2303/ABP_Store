@@ -1,4 +1,6 @@
-﻿using Store.ProductCategories;
+﻿using Store;
+using Store.ProductCategories;
+using Store.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +28,7 @@ namespace Store.Products
             ProductType productType, string sKU,
             int sortOrder, bool visibility,
             bool isActive, Guid categoryId,
-            string seoMetaDescription, string description,
-            string thumbnailPicture, double sellPrice)
+            string seoMetaDescription, string description, double sellPrice)
         {
             if (await _productRepository.AnyAsync(x => x.Name == name))
                 throw new UserFriendlyException("Tên sản phẩm đã tồn tại", StoreDomainErrorCodes.ProductNameAlreadyExists);
@@ -39,7 +40,7 @@ namespace Store.Products
             var category = await _productCategoryRepository.GetAsync(categoryId);
 
             return new Product(Guid.NewGuid(), manufacturerId, name, code, slug, productType, sKU, sortOrder,
-                visibility, isActive, categoryId, seoMetaDescription, description, thumbnailPicture, sellPrice, category?.Name, category?.Slug);
+                visibility, isActive, categoryId, seoMetaDescription, description, null, sellPrice, category?.Name, category?.Slug);
         }
     }
 }

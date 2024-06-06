@@ -37,6 +37,7 @@ namespace Store.Products
             CategoryName = categoryName;
             CategorySlug = categorySlug;
         }
+
         public Guid ManufacturerId { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -52,6 +53,6 @@ namespace Store.Products
         public string ThumbnailPicture { get; set; }
         public double SellPrice { get; set; }
         public string CategoryName { get; set; }
-        public string CategorySlug { get; set; } 
+        public string CategorySlug { get; set; }
     }
 }
