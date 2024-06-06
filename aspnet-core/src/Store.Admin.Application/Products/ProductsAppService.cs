@@ -103,7 +103,7 @@ namespace Store.Admin.Products
             query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Name.Contains(input.Keyword));
             query = query.WhereIf(input.CategoryId.HasValue, x=> x.CategoryId == input.CategoryId);
             var totalCount = await AsyncExecuter.LongCountAsync(query);
-            var data = await AsyncExecuter.ToListAsync(query.Skip(input.SkipCount).Take(input.MaxResultCount));
+            var data = await AsyncExecuter.ToListAsync(query.OrderByDescending(x => x.CreationTime).Skip(input.SkipCount).Take(input.MaxResultCount));
 
             return new PagedResultDto<ProductInListDto>(totalCount, ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data));
         }
@@ -113,6 +113,21 @@ namespace Store.Admin.Products
             base64 = regex.Replace(base64, string.Empty);
             byte[] bytes = Convert.FromBase64String(base64);
             await _fileContainer.SaveAsync(fileName, bytes, overrideExisting: true);
+        }
+
+        public async Task<string> GetThumbnailImageAsync(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+            var thumnailContent = await _fileContainer.GetAllBytesOrNullAsync(fileName);
+            if(thumnailContent is null)
+            {
+                return null;
+            }
+            var result = Convert.ToBase64String(thumnailContent);
+            return result;
         }
     }
 }
