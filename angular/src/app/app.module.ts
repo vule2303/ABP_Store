@@ -19,6 +19,9 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from './shared/services/notification.service';
 import { UtilityService } from './shared/services/utility.service';
+import { ConfirmationService  } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 @NgModule({
   imports: [
     BrowserModule,
@@ -36,9 +39,11 @@ import { UtilityService } from './shared/services/utility.service';
     SettingManagementConfigModule.forRoot(),
     ThemeLeptonXModule.forRoot(),
     SideMenuLayoutModule.forRoot(),
+    ConfirmDialogModule,
+    ToastModule
   ],
   declarations: [AppComponent],
-  providers: [APP_ROUTE_PROVIDER, DialogService, MessageService, NotificationService, UtilityService],
+  providers: [APP_ROUTE_PROVIDER, DialogService, MessageService, NotificationService, UtilityService, ConfirmationService, ToastModule, ConfirmDialogModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

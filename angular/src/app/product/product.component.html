@@ -22,6 +22,17 @@
       label="Sửa"
       >
       </button>
+      <button 
+      pButton
+      (click) = "deleteItems()"
+      type="button"
+      icon="pi pi-minus"
+      *ngIf="selectedItems.length > 0"
+      class="ml-1 p-button-danger"
+      iconPos="left"
+      label="Xóa"
+      >
+      </button>
     </div>
     <div class="col-8">
       <div class="formgroup-inline">

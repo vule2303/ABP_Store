@@ -19,6 +19,7 @@ import { EditorModule } from 'primeng/editor';
 import { StoreSharedModule } from '../shared/modules/store-shared.module';
 import { BadgeModule } from 'primeng/badge';
 import { ImageModule } from 'primeng/image';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   declarations: [ProductComponent, ProductDetailComponent],
   imports: [
@@ -39,7 +40,8 @@ import { ImageModule } from 'primeng/image';
     EditorModule,
     StoreSharedModule,
     BadgeModule,
-    ImageModule
+    ImageModule,
+    ConfirmDialogModule
   ],
 })
 export class ProductModule {}
