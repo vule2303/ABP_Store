@@ -12,6 +12,7 @@ using Volo.Abp;
 using Volo.Abp.BlobStoring;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using TeduEcommerce.Products;
 
 namespace Store.Admin.Products
 {
@@ -27,15 +28,18 @@ namespace Store.Admin.Products
         private readonly ProductManager _productManager;
         private readonly IRepository<ProductCategory> _productCategoryRepository;
         private readonly IBlobContainer<ProductThumbnailPictureContainer> _fileContainer;
+        private readonly ProductCodeGenerator _productCodeGenerator;
         public ProductsAppService(IRepository<Product, Guid> repository,
             IRepository<ProductCategory> productCategoryRepository,
             ProductManager productManager,
-            IBlobContainer<ProductThumbnailPictureContainer> fileContainer)
+            IBlobContainer<ProductThumbnailPictureContainer> fileContainer,
+             ProductCodeGenerator productCodeGenerator)
             : base(repository)
         {
             _productManager = productManager;
             _productCategoryRepository = productCategoryRepository;
             _fileContainer = fileContainer;
+            _productCodeGenerator = productCodeGenerator;
         }
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
@@ -143,6 +147,11 @@ namespace Store.Admin.Products
             }
             var result = Convert.ToBase64String(thumnailContent);
             return result;
+        }
+
+        public async Task<string> GetSuggestNewCodeAsync()
+        {
+            return await _productCodeGenerator.GenerateAsync();
         }
     }
 }

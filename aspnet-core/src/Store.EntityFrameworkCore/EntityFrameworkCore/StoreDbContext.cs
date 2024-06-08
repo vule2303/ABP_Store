@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Store.IdentitySettings;
 using Store.Configurations.Inventories;
 using Store.Configurations.IventoriesTickets;
 using Store.Configurations.Manufacturers;
@@ -91,6 +92,7 @@ public class StoreDbContext :
     public DbSet<PromotionManufacturer> PromotionManufacturers { get; set; }
     public DbSet<PromotionProduct> PromotionProducts { get; set; }
     public DbSet<PromotionUsageHistory> PromotionUsageHistories { get; set; }
+    public DbSet<IdentitySetting> IdentitySettings { get; set; }
     #endregion
 
     public StoreDbContext(DbContextOptions<StoreDbContext> options)
@@ -146,5 +148,6 @@ public class StoreDbContext :
         builder.ApplyConfiguration(new PromotionManufacturerConfiguration());
         builder.ApplyConfiguration(new PromotionProductConfiguration());
         builder.ApplyConfiguration(new PromotionUsageHistoryConfiguration());
+        builder.ApplyConfiguration(new IdentitySettingConfiguration());
     }
 }

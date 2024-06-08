@@ -102,6 +102,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
             });
             //Load edit data to form
             if (this.utilService.isEmpty(this.config.data?.id) == true) {
+              this.getNewSuggestionCode();
               this.toggleBlockUI(false);
             } else {
               this.loadFormDetails(this.config.data?.id);
@@ -130,7 +131,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         },
       });
   }
-//Save Change Method
+  //Save Change Method
   saveChange() {
     this.toggleBlockUI(true);
     
@@ -164,7 +165,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         })
     }
   }
-
+  //Load Product Types
   loadProductTypes() {
     productTypeOptions.forEach(element => {
       this.productTypes.push({
@@ -212,6 +213,19 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         );
       },
     })
+  }
+  //get new suggestion code
+  getNewSuggestionCode() {
+    this.productService
+      .getSuggestNewCode()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (response: string) => {
+          this.form.patchValue({
+            code: response,
+          });
+        }
+      });
   }
 
   private toggleBlockUI(enabled: boolean) {
