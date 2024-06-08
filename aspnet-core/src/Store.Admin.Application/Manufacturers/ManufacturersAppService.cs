@@ -1,4 +1,5 @@
-﻿using Store.Manufacturers;
+﻿using Microsoft.AspNetCore.Authorization;
+using Store.Manufacturers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Store.Admin.Manufacturers
 {
-
+    [Authorize]
     public class ManufacturersAppService : CrudAppService<
         Manufacturer,
         ManufacturerDto,

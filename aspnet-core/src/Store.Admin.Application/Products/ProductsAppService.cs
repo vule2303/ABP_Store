@@ -11,9 +11,11 @@ using Store.ProductCategories;
 using Volo.Abp;
 using Volo.Abp.BlobStoring;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Store.Admin.Products
 {
+    [Authorize]
     public class ProductsAppService : CrudAppService<
         Product,
         ProductDto,
@@ -37,8 +39,21 @@ namespace Store.Admin.Products
         }
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            var product = await _productManager.CreateAsync(input.ManufacturerId, input.Name, input.Code, input.Slug, input.ProductType, input.SKU,
-                input.SortOrder, input.Visibility, input.IsActive, input.CategoryId, input.SeoMetaDescription, input.Description, input.SellPrice);
+            var product = await _productManager.CreateAsync(
+                input.ManufacturerId, 
+                input.Name, 
+                input.Code, 
+                input.Slug, 
+                input.ProductType, 
+                input.SKU,
+                input.SortOrder, 
+                input.Visibility, 
+                input.IsActive, 
+                input.CategoryId, 
+                input.SeoMetaDescription, 
+                input.Description, 
+                input.SellPrice);
+
             if (input.ThumbnailPictureContent != null && input.ThumbnailPictureContent.Length > 0)
             {
                 await SaveThumbnailImageAsync(input.ThumbnailPictureName, input.ThumbnailPictureContent);

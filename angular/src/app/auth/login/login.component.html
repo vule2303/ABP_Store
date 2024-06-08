@@ -7,7 +7,7 @@
                     <div class="text-900 text-3xl font-medium mb-3">Chào mừng, Admin !</div>
                     <span class="text-600 font-medium">Đăng nhập</span>
                 </div>
-                <div [formGroup] ="loginForm" >
+                <form [formGroup] ="loginForm" >
                     <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
                     <input id="email1" formControlName = "username" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
 
@@ -17,7 +17,10 @@
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
                     </div>
                     <button pButton pRipple (click)="login()" label="Đăng nhập" class="w-full p-3 text-xl"></button>
-                </div>
+                </form>
+                <p-blockUI [blocked]="blockedPanel">
+                    <p-progressSpinner></p-progressSpinner>
+                </p-blockUI>
             </div>
         </div>
     </div>

@@ -8,9 +8,11 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Application.Dtos;
 using Store.ProductCategories;
 using Volo.Abp.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Store.Admin.ProductCategories
 {
+    [Authorize]
     public class ProductCategoriesAppService : CrudAppService<
         ProductCategory, 
         ProductCategoryDto, 

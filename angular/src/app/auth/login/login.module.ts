@@ -8,6 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { BlockUIModule } from 'primeng/blockui';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TokenStorageService } from 'src/app/shared/services/token.service';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -20,9 +24,11 @@ import { AuthService } from 'src/app/shared/services/auth.service';
         InputTextModule,
         FormsModule,
         PasswordModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        BlockUIModule,
+        ProgressSpinnerModule
     ],
     declarations: [LoginComponent],
-    providers: [AuthService]
+    providers: [AuthService, TokenStorageService, MessageService]
 })
 export class LoginModule { }
