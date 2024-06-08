@@ -1,4 +1,4 @@
-﻿using Store.Attributes;
+﻿using Store.ProductAttributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
