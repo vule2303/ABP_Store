@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Services;
+using Store.Admin.Products.Attributes;
 using Volo.Abp.Application.Dtos;
 using System.Threading.Tasks;
 namespace Store.Admin.Products
@@ -18,5 +19,12 @@ namespace Store.Admin.Products
         Task DeleteMultipleAsync(IEnumerable<Guid> ids);
         Task<string> GetThumbnailImageAsync(string fileName);
         Task<string> GetSuggestNewCodeAsync();
+        Task<ProductAttributeValueDto> AddProductAttributeAsync(AddUpdateProductAttributeDto input);
+        Task<ProductAttributeValueDto> UpdateProductAttributeAsync(Guid id, AddUpdateProductAttributeDto input);
+
+        Task RemoveProductAttributeAsync(Guid attributeId, Guid id);
+
+        Task<List<ProductAttributeValueDto>> GetListProductAttributeAllAsync(Guid productId);
+        Task<PagedResultDto<ProductAttributeValueDto>> GetListProductAttributesAsync(ProductAttributeListFilterDto input);
     }
 }
