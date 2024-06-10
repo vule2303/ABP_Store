@@ -7,6 +7,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, take, takeUntil } from 'rxjs';
 import { NotificationService } from '../shared/services/notification.service';
 import { AttributeDetailComponent } from './attribute-detail.component';
+import { ProductDetailComponent } from '../product/product-detail.component';
 
 @Component({
   selector: 'app-attribute',
@@ -108,6 +109,7 @@ export class AttributeComponent implements OnInit, OnDestroy {
       }
     });
   }
+  //delete Item
   deleteItems(){
     if(this.selectedItems.length == 0){
       this.notificationService.showError("Phải chọn ít nhất một bản ghi");

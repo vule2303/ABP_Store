@@ -8,6 +8,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { NotificationService } from '../shared/services/notification.service';
 import { ProductType } from '@proxy/store/products';
 import { ConfirmationService } from 'primeng/api';
+import { ProductAttributeComponent } from './product-attribute.component';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -118,11 +119,28 @@ export class ProductComponent implements OnInit, OnDestroy{
       if (data) {
         this.loadData();
         this.selectedItems = [];
-        this.notificationService.showSuccess('Thêm sản phẩm thành công');
+        this.notificationService.showSuccess('Cập nhật sản phẩm thành công');
       }
     });
   }
-  
+  //manageProductAttribute method
+  manageProductAttribute(id: string) {
+    const ref = this.dialogService.open(ProductAttributeComponent, {
+      data: {
+        id: id,
+      },
+      header: 'Quản lý thuộc tính sản phẩm',
+      width: '70%',
+    });
+
+    ref.onClose.subscribe((data: ProductDto) => {
+      if (data) {
+        this.loadData();
+        this.selectedItems = [];
+        this.notificationService.showSuccess('Cập nhật thuộc tính sản phẩm thành công');
+      }
+    });
+  }
   deleteItems(){
     if(this.selectedItems.length == 0){
       this.notificationService.showError("Phải chọn ít nhất một bản ghi");

@@ -7,7 +7,7 @@ public static class StoreDomainErrorCodes
 
     public const string ProductSKUAlreadyExists = "Store:ProductSKUAlreadyExists";
     public const string ProductIsNotExists = "Store:ProductIsNotExists";
-    public const string ProductAttributeIdIsNotExists = "TeduEcommerce:ProductAttributeIdIsNotExists";
+    public const string ProductAttributeIdIsNotExists = "Store:ProductAttributeIdIsNotExists";
 
-    public const string ProductAttributeValueIsNotValid = "TeduEcommerce:ProductAttributeValueIsNotValid";
+    public const string ProductAttributeValueIsNotValid = "Store:ProductAttributeValueIsNotValid";
 }
