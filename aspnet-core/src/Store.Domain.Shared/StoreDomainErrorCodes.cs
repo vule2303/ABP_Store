@@ -10,4 +10,5 @@ public static class StoreDomainErrorCodes
     public const string ProductAttributeIdIsNotExists = "Store:ProductAttributeIdIsNotExists";
 
     public const string ProductAttributeValueIsNotValid = "Store:ProductAttributeValueIsNotValid";
+    public const string RoleNameAlreadyExists = "Store:RoleNameAlreadyExists";
 }
