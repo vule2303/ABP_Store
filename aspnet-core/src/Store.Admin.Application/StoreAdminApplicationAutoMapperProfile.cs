@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using Store.Admin.Manufacturers;
-using Store.Admin.ProductAttributes;
-using Store.Admin.ProductCategories;
-using Store.Admin.Products;
-using Store.Admin.Roles;
+using Store.Admin.Catalog.Manufacturers;
+using Store.Admin.Catalog.ProductAttributes;
+using Store.Admin.Catalog.ProductCategories;
+using Store.Admin.Catalog.Products;
+using Store.Admin.System.Roles;
+using Store.Admin.System.Users;
 using Store.Manufacturers;
 using Store.ProductAttributes;
 using Store.ProductCategories;
@@ -48,5 +49,9 @@ public class StoreAdminApplicationAutoMapperProfile : Profile
             :
             null));
         CreateMap<CreateUpdateRoleDto, IdentityRole>();
+
+        //User
+        CreateMap<IdentityUser, UserDto>();
+        CreateMap<IdentityUser, UserInListDto>();
     }
 }
