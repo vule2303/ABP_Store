@@ -1,8 +1,15 @@
 {
   "culture": "en",
   "texts": {
-    "Menu:Home": "Home",
-    "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "Permission:Catalog": "Category",
+    "Permission:Catalog.Product": "Product",
+    "Permission:Catalog.Product.Create": "Create a new product",
+    "Permission:Catalog.Product.Update": "Update product",
+    "Permission:Catalog.Product.Delete": "Delete product",
+    "Permission:Catalog.Product.AttributeManage": "Manage attribute",
+    "Permission:Catalog.Attribute": "Attribute",
+    "Permission:Catalog.Attribute.Create": "Create a new attribute",
+    "Permission:Catalog.Attribute.Update": "Update attribute",
+    "Permission:Catalog.Attribute.Delete": "Delete attribute"
   }
 }
