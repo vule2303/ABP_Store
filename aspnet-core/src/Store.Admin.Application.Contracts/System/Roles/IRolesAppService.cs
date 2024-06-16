@@ -5,7 +5,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.PermissionManagement;
 
-namespace Store.Admin.System.Roles
+namespace Store.Admin.Roles
 {
     public interface IRolesAppService : ICrudAppService
         <RoleDto,

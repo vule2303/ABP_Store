@@ -8,8 +8,8 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { RoleDto } from '@proxy/system/roles';
-import { UsersService } from '@proxy/system/users';
+import { RoleDto } from '@proxy/roles';
+import { UsersService } from '@proxy/users';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';

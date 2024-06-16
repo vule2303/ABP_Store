@@ -35,4 +35,18 @@ public static class StoreAdminPermissions
         public const string Update = Default + ".Update";
         public const string Delete = Default + ".Delete";
     }
+    public static class Manufacturer
+    {
+        public const string Default = CatalogGroupName + ".Manufacturer";
+        public const string Create = Default + ".Create";
+        public const string Update = Default + ".Update";
+        public const string Delete = Default + ".Delete";
+    }
+    public static class ProductCategory
+    {
+        public const string Default = CatalogGroupName + ".ProductCategory";
+        public const string Create = Default + ".Create";
+        public const string Update = Default + ".Update";
+        public const string Delete = Default + ".Delete";
+    }
 }

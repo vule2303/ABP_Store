@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Store.Admin.ProductAttributes;
+using Store.Admin.Permissions;
 using Store.ProductAttributes;
 using System;
 using System.Collections.Generic;
@@ -8,9 +10,9 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace Store.Admin.Catalog.ProductAttributes
+namespace Store.Admin.ProductAttributes
 {
-    [Authorize]
+    [Authorize(StoreAdminPermissions.Attribute.Default)]
     public class ProductAttributesAppService : CrudAppService<
         ProductAttribute,
         ProductAttributeDto,
@@ -22,13 +24,21 @@ namespace Store.Admin.Catalog.ProductAttributes
         public ProductAttributesAppService(IRepository<ProductAttribute, Guid> repository)
             : base(repository)
         {
+            GetPolicyName = StoreAdminPermissions.Attribute.Default;
+            GetListPolicyName = StoreAdminPermissions.Attribute.Default;
+            CreatePolicyName = StoreAdminPermissions.Attribute.Create;
+            UpdatePolicyName = StoreAdminPermissions.Attribute.Update;
+            DeletePolicyName = StoreAdminPermissions.Attribute.Delete;
         }
 
+        [Authorize(StoreAdminPermissions.Attribute.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
             await UnitOfWorkManager.Current.SaveChangesAsync();
         }
+
+        [Authorize(StoreAdminPermissions.Attribute.Default)]
 
         public async Task<List<ProductAttributeInListDto>> GetListAllAsync()
         {
@@ -39,6 +49,8 @@ namespace Store.Admin.Catalog.ProductAttributes
             return ObjectMapper.Map<List<ProductAttribute>, List<ProductAttributeInListDto>>(data);
 
         }
+
+        [Authorize(StoreAdminPermissions.Attribute.Default)]
 
         public async Task<PagedResultDto<ProductAttributeInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {

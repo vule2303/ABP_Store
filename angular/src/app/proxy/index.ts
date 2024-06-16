@@ -1,6 +1,11 @@
 import * as Catalog from './catalog';
+import * as Manufacturers from './manufacturers';
+import * as ProductAttributes from './product-attributes';
+import * as ProductCategories from './product-categories';
+import * as Products from './products';
+import * as Roles from './roles';
 import * as Store from './store';
-import * as System from './system';
+import * as Users from './users';
 import * as Volo from './volo';
 export * from './models';
-export { Catalog, Store, System, Volo };
+export { Catalog, Manufacturers, ProductAttributes, ProductCategories, Products, Roles, Store, Users, Volo };

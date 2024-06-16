@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.System.Users
+namespace Store.Admin.Users
 {
     public class UserDto : AuditedEntityDto<Guid>
     {

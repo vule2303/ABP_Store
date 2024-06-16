@@ -5,7 +5,7 @@ using System.Text;
 using Volo.Abp.Account;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.Catalog.Products
+namespace Store.Admin.Products
 {
     public class ProductDto : IEntityDto<Guid>
     {

@@ -1,9 +1,8 @@
-﻿using Store.Admin.System.Users;
-using Store.Admin;
+﻿using Microsoft.AspNetCore.Authorization;
+using Store.Admin.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -12,8 +11,10 @@ using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 
-namespace Store.Admin.System.Users
+namespace Store.Admin.Users
 {
+    [Authorize(IdentityPermissions.Users.Default, Policy = "AdminOnly")]
+
     public class UsersAppService : CrudAppService<IdentityUser, UserDto, Guid, PagedResultRequestDto,
                         CreateUserDto, UpdateUserDto>, IUsersAppService
     {
@@ -23,13 +24,22 @@ namespace Store.Admin.System.Users
             IdentityUserManager identityUserManager) : base(repository)
         {
             _identityUserManager = identityUserManager;
+
+            GetPolicyName = IdentityPermissions.Users.Default;
+            GetListPolicyName = IdentityPermissions.Users.Default;
+            CreatePolicyName = IdentityPermissions.Users.Create;
+            UpdatePolicyName = IdentityPermissions.Users.Update;
+            DeletePolicyName = IdentityPermissions.Users.Delete;
         }
 
+        [Authorize(IdentityPermissions.Users.Delete)]
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
             await UnitOfWorkManager.Current.SaveChangesAsync();
         }
+
+        [Authorize(IdentityPermissions.Users.Default)]
 
         public async Task<List<UserInListDto>> GetListAllAsync(string filterKeyword)
         {
@@ -44,6 +54,8 @@ namespace Store.Admin.System.Users
             var data = await AsyncExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<IdentityUser>, List<UserInListDto>>(data);
         }
+
+        [Authorize(IdentityPermissions.Users.Default)]
 
         public async Task<PagedResultDto<UserInListDto>> GetListWithFilterAsync(BaseListFilterDto input)
         {
@@ -65,6 +77,8 @@ namespace Store.Admin.System.Users
             var users = ObjectMapper.Map<List<IdentityUser>, List<UserInListDto>>(data);
             return new PagedResultDto<UserInListDto>(totalCount, users);
         }
+
+        [Authorize(IdentityPermissions.Users.Create)]
 
         public async override Task<UserDto> CreateAsync(CreateUserDto input)
         {
@@ -103,6 +117,8 @@ namespace Store.Admin.System.Users
             }
         }
 
+        [Authorize(IdentityPermissions.Users.Update)]
+
         public async override Task<UserDto> UpdateAsync(Guid id, UpdateUserDto input)
         {
             var user = await _identityUserManager.FindByIdAsync(id.ToString());
@@ -131,6 +147,8 @@ namespace Store.Admin.System.Users
             }
         }
 
+        [Authorize(IdentityPermissions.Users.Default)]
+
         public async override Task<UserDto> GetAsync(Guid id)
         {
             var user = await _identityUserManager.FindByIdAsync(id.ToString());
@@ -139,11 +157,15 @@ namespace Store.Admin.System.Users
                 throw new EntityNotFoundException(typeof(IdentityUser), id);
             }
             var userDto = ObjectMapper.Map<IdentityUser, UserDto>(user);
+
             //Get roles from users
             var roles = await _identityUserManager.GetRolesAsync(user);
             userDto.Roles = roles;
             return userDto;
         }
+
+        [Authorize(IdentityPermissions.Users.Update)]
+
         public async Task AssignRolesAsync(Guid userId, string[] roleNames)
         {
             var user = await _identityUserManager.FindByIdAsync(userId.ToString());
@@ -170,6 +192,9 @@ namespace Store.Admin.System.Users
                 throw new UserFriendlyException(errors);
             }
         }
+
+        [Authorize(IdentityPermissions.Users.Update)]
+
         public async Task SetPasswordAsync(Guid userId, SetPasswordDto input)
         {
             var user = await _identityUserManager.FindByIdAsync(userId.ToString());
@@ -191,6 +216,5 @@ namespace Store.Admin.System.Users
                 throw new UserFriendlyException(errors);
             }
         }
-    
     }
 }

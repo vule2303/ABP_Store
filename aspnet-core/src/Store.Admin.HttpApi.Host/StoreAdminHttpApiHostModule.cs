@@ -28,6 +28,7 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
+using Volo.Abp.Identity.Localization;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
@@ -121,6 +122,10 @@ public class StoreAdminHttpApiHostModule : AbpModule
                     ValidateIssuer = false
                 };
             });
+        context.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+        });
     }
 
     private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
@@ -207,7 +212,7 @@ public class StoreAdminHttpApiHostModule : AbpModule
 
         var supportedCultures = new[]
         {
-                new CultureInfo("vi")
+            new CultureInfo("vi")
         };
 
         app.UseAbpRequestLocalization(options =>

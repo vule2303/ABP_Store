@@ -14,6 +14,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         if (ex.status == 500) {
           this.notificationservice.showError('Hệ thống có lôi xảy ra. Vui lòng liên hệ admin');
         }
+        console.log(ex);
         throw ex;
       })
     );

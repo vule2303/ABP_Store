@@ -1,7 +1,7 @@
 ﻿using Store.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
-namespace Store;
+namespace Store.Public;
 
 [DependsOn(
     typeof(StoreEntityFrameworkCoreTestModule)

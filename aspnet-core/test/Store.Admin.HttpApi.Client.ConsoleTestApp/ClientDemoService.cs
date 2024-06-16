@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Volo.Abp.Account;
 using Volo.Abp.DependencyInjection;
-
+using Volo.Abp.Account;
 namespace Store.Admin.HttpApi.Client.ConsoleTestApp;
 
 public class ClientDemoService : ITransientDependency

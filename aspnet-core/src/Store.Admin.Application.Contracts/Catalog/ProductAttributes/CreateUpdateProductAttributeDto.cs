@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Store.Admin.Catalog.ProductAttributes
+namespace Store.Admin.ProductAttributes
 {
     public class CreateUpdateProductAttributeDto
     {

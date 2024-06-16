@@ -1,7 +1,7 @@
 import { PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/catalog/product-categories';
-import { ProductDto, ProductInListDto, ProductsService } from '@proxy/catalog/products';
+import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
+import { ProductDto, ProductInListDto, ProductsService } from '@proxy/products';
 import { takeUntil,Subject } from 'rxjs';
 import { ProductDetailComponent } from './product-detail.component';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -81,8 +81,10 @@ export class ProductComponent implements OnInit, OnDestroy{
   }
 
   pageChanged(event: any): void {
-    this.skipCount = (event.page - 1) * this.maxResultCount;
+    this.skipCount = (event.page) * this.maxResultCount;
     this.maxResultCount = event.rows;
+    console.log(event, this.skipCount , this.maxResultCount);
+
     this.loadData();
   }
 

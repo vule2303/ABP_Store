@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Store.Admin.System.Users
+namespace Store.Admin.Users
 {
     public class UpdateUserDto
     {

@@ -5,7 +5,7 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Application.Dtos;
 using System.Threading.Tasks;
 using Store.Admin.Catalog.Products.Attributes;
-namespace Store.Admin.Catalog.Products
+namespace Store.Admin.Products
 {
     public interface IProductsAppService : ICrudAppService
        <ProductDto,

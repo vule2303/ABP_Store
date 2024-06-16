@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Store.Admin.Catalog.Products
+namespace Store.Admin.Products
 {
     public class ProductListFilterDto : BaseListFilterDto
     {

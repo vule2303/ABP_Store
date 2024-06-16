@@ -1,6 +1,5 @@
 import { AccountConfigModule } from '@abp/ng.account/config';
 import { CoreModule } from '@abp/ng.core';
-import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
@@ -21,10 +20,15 @@ import { NotificationService } from './shared/services/notification.service';
 import { UtilityService } from './shared/services/utility.service';
 import { ConfirmationService  } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { GlobalHttpInterceptorService } from './shared/interceptors/error-handler.interceptor';
+import { registerLocale } from '@abp/ng.core/locale';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeVi from '@angular/common/locales/vi';
+registerLocaleData(localeVi);
 @NgModule({
   imports: [
     BrowserModule,
@@ -52,6 +56,7 @@ import { GlobalHttpInterceptorService } from './shared/interceptors/error-handle
       useClass: TokenInterceptor,
       multi: true
     },
+    { provide: LOCALE_ID, useValue: 'vi' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: GlobalHttpInterceptorService,

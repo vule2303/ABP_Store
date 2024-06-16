@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Store.Admin.Application\Store.Admin.Application.csproj" />
-    <ProjectReference Include="..\..\src\Store.Application\Store.Application.csproj" />
     <ProjectReference Include="..\Store.Domain.Tests\Store.Domain.Tests.csproj" />
   </ItemGroup>
 

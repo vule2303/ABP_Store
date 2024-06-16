@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ManufacturerInListDto, ManufacturersService } from '@proxy/catalog/manufacturers';
-import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/catalog/product-categories';
-import { ProductDto, ProductsService } from '@proxy/catalog/products';
+import { ManufacturerInListDto, ManufacturersService } from '@proxy/manufacturers';
+import { ProductCategoriesService, ProductCategoryInListDto } from '@proxy/product-categories';
+import { ProductDto, ProductsService } from '@proxy/products';
 import { ProductType, productTypeOptions } from '@proxy/store/products';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';

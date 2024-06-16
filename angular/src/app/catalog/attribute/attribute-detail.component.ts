@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProductAttributeDto, ProductAttributesService } from '@proxy/catalog/product-attributes';
+import { ProductAttributeDto, ProductAttributesService } from '@proxy/product-attributes';
 import { attributeTypeOptions } from '@proxy/store/product-attributes';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';

@@ -57,8 +57,8 @@ export class LoginComponent implements OnDestroy {
             next: (res: LoginResponseDto) => {
                 this.tokenService.saveToken(res.access_token);
                 this.tokenService.saveRefreshToken(res.refresh_token);
-                this.router.navigate(['']);
                 this.toggleBlockUI(false);
+                this.router.navigate(['']);
             },
             error: () => {
                 this.notificationService.showError("Tài khoản hoặc mật khẩu không đúng.")
@@ -74,5 +74,10 @@ export class LoginComponent implements OnDestroy {
     ngOnDestroy(): void {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
+    }
+    ngOnInit() {
+        if(this.authService.isAuthenticated()){
+            this.router.navigate(['']);
+        }
     }
 }

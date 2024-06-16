@@ -5,12 +5,12 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Http.Client.IdentityModel;
 using Volo.Abp.Modularity;
-
+using Store.Admin;
 namespace Store.Admin.HttpApi.Client.ConsoleTestApp;
 
 [DependsOn(
     typeof(AbpAutofacModule),
-    typeof(StoreHttpApiClientModule),
+    typeof(StoreAdminHttpApiClientModule),
     typeof(AbpHttpClientIdentityModelModule)
     )]
 public class StoreAdminConsoleApiClientModule : AbpModule

@@ -4,7 +4,6 @@ import { LoginResponseDto } from "../models/login-response.dto";
 import { environment } from "src/environments/environment";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants/keys.const";
 import { TokenStorageService } from "./token.service";
 
 @Injectable({   
@@ -47,7 +46,8 @@ export class AuthService{
     }
 
     public isAuthenticated(): boolean {
-        return this.tokenService.getToken() != null;
+        const token = this.tokenService.getToken();
+        return token !== null;
     }
 
     public logout() {

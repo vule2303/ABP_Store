@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.Catalog.Products
+namespace Store.Admin.Products
 {
     public class ProductInListDto : EntityDto<Guid>
     {

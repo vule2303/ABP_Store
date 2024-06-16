@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
-namespace Store.Admin.Catalog.Manufacturers
+namespace Store.Admin.Manufacturers
 {
     public interface IManufacturersAppService : ICrudAppService
      <ManufacturerDto,

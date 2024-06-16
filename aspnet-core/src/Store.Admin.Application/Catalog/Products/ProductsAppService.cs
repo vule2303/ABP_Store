@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Store.Admin.Catalog.Products.Attributes;
+using Store.Admin.Permissions;
 using Store.ProductAttributes;
 using Store.ProductCategories;
 using Store.Products;
@@ -7,17 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TeduEcommerce.Products;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
-using Store.Admin.Catalog.Products.Attributes;
 
-namespace Store.Admin.Catalog.Products
+namespace Store.Admin.Products
 {
-    [Authorize]
+    [Authorize(StoreAdminPermissions.Product.Default)]
     public class ProductsAppService : CrudAppService<
         Product,
         ProductDto,
@@ -62,8 +62,15 @@ namespace Store.Admin.Catalog.Products
             _productAttributeDecimalRepository = productAttributeDecimalRepository;
             _productAttributeVarcharRepository = productAttributeVarcharRepository;
             _productAttributeTextRepository = productAttributeTextRepository;
+
+            GetPolicyName = StoreAdminPermissions.Product.Default;
+            GetListPolicyName = StoreAdminPermissions.Product.Default;
+            CreatePolicyName = StoreAdminPermissions.Product.Create;
+            UpdatePolicyName = StoreAdminPermissions.Product.Update;
+            DeletePolicyName = StoreAdminPermissions.Product.Delete;
         }
 
+        [Authorize(StoreAdminPermissions.Product.Update)]
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             var product = await _productManager.CreateAsync(
@@ -91,6 +98,8 @@ namespace Store.Admin.Catalog.Products
 
             return ObjectMapper.Map<Product, ProductDto>(result);
         }
+
+        [Authorize(StoreAdminPermissions.Product.Update)]
 
         public override async Task<ProductDto> UpdateAsync(Guid id, CreateUpdateProductDto input)
         {
@@ -129,11 +138,15 @@ namespace Store.Admin.Catalog.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
+        [Authorize(StoreAdminPermissions.Product.Delete)]
+
         public async Task DeleteMultipleAsync(IEnumerable<Guid> ids)
         {
             await Repository.DeleteManyAsync(ids);
             await UnitOfWorkManager.Current.SaveChangesAsync();
         }
+
+        [Authorize(StoreAdminPermissions.Product.Default)]
 
         public async Task<List<ProductInListDto>> GetListAllAsync()
         {
@@ -143,6 +156,8 @@ namespace Store.Admin.Catalog.Products
 
             return ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data);
         }
+
+        [Authorize(StoreAdminPermissions.Product.Default)]
 
         public async Task<PagedResultDto<ProductInListDto>> GetListFilterAsync(ProductListFilterDto input)
         {
@@ -160,6 +175,8 @@ namespace Store.Admin.Catalog.Products
             return new PagedResultDto<ProductInListDto>(totalCount, ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data));
         }
 
+        [Authorize(StoreAdminPermissions.Product.Update)]
+
         private async Task SaveThumbnailImageAsync(string fileName, string base64)
         {
             Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
@@ -167,6 +184,8 @@ namespace Store.Admin.Catalog.Products
             byte[] bytes = Convert.FromBase64String(base64);
             await _fileContainer.SaveAsync(fileName, bytes, overrideExisting: true);
         }
+
+        [Authorize(StoreAdminPermissions.Product.Default)]
 
         public async Task<string> GetThumbnailImageAsync(string fileName)
         {
@@ -184,10 +203,13 @@ namespace Store.Admin.Catalog.Products
             return result;
         }
 
+
         public async Task<string> GetSuggestNewCodeAsync()
         {
             return await _productCodeGenerator.GenerateAsync();
         }
+
+        [Authorize(StoreAdminPermissions.Product.Update)]
 
         public async Task<ProductAttributeValueDto> AddProductAttributeAsync(AddUpdateProductAttributeDto input)
         {
@@ -258,6 +280,8 @@ namespace Store.Admin.Catalog.Products
             };
         }
 
+        [Authorize(StoreAdminPermissions.Product.Update)]
+
         public async Task RemoveProductAttributeAsync(Guid attributeId, Guid id)
         {
             var attribute = await _productAttributeRepository.GetAsync(x => x.Id == attributeId);
@@ -310,6 +334,8 @@ namespace Store.Admin.Catalog.Products
             await UnitOfWorkManager.Current.SaveChangesAsync();
         }
 
+        [Authorize(StoreAdminPermissions.Product.Default)]
+
         public async Task<List<ProductAttributeValueDto>> GetListProductAttributeAllAsync(Guid productId)
         {
             var attributeQuery = await _productAttributeRepository.GetQueryableAsync();
@@ -355,12 +381,15 @@ namespace Store.Admin.Catalog.Products
                             VarcharId = aVarchar != null ? aVarchar.Id : null,
                         };
             query = query.Where(x => x.DateTimeId != null
-                            || x.DecimalId != null
-                            || x.IntValue != null
-                            || x.TextId != null
-                            || x.VarcharId != null);
+                           || x.DecimalId != null
+                           || x.IntValue != null
+                           || x.TextId != null
+                           || x.VarcharId != null);
             return await AsyncExecuter.ToListAsync(query);
         }
+
+        [Authorize(StoreAdminPermissions.Product.Default)]
+
 
         public async Task<PagedResultDto<ProductAttributeValueDto>> GetListProductAttributesAsync(ProductAttributeListFilterDto input)
         {
@@ -419,6 +448,8 @@ namespace Store.Admin.Catalog.Products
                 );
             return new PagedResultDto<ProductAttributeValueDto>(totalCount, data);
         }
+
+        [Authorize(StoreAdminPermissions.Product.Update)]
 
         public async Task<ProductAttributeValueDto> UpdateProductAttributeAsync(Guid id, AddUpdateProductAttributeDto input)
         {

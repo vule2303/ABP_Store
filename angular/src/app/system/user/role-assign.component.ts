@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
-import { RoleDto, RolesService } from '@proxy/system/roles';
-import { UserDto } from '@proxy/system/users';
-import { UsersService } from '@proxy/system/users';
+import { RoleDto, RolesService } from '@proxy/roles';
+import { UserDto } from '@proxy/users';
+import { UsersService } from '@proxy/users';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 

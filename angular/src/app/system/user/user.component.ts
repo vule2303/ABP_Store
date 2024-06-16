@@ -1,7 +1,7 @@
 import { PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserDto, UserInListDto } from '@proxy/system/users';
-import { UsersService } from '@proxy/system/users';
+import { UserDto, UserInListDto } from '@proxy/users';
+import { UsersService } from '@proxy/users';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';

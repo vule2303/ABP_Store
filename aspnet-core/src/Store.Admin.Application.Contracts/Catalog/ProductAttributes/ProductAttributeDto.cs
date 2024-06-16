@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.Catalog.ProductAttributes
+namespace Store.Admin.ProductAttributes
 {
     public class ProductAttributeDto : IEntityDto<Guid>
     {

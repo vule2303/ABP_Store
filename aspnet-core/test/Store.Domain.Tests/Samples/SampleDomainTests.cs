@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Shouldly;
+using Store.Public;
 using Volo.Abp.Identity;
 using Xunit;
 

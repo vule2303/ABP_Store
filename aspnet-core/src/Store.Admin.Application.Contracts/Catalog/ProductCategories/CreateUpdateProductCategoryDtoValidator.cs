@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Store.Admin.Catalog.ProductCategories
+namespace Store.Admin.ProductCategories
 {
     public class CreateUpdateProductCategoryDtoValidator : AbstractValidator<CreateUpdateProductCategoryDto>
     {

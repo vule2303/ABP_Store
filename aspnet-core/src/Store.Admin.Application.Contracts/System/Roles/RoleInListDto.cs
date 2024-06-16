@@ -1,7 +1,7 @@
 ﻿using System;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.System.Roles
+namespace Store.Admin.Roles
 {
     public class RoleInListDto : EntityDto<Guid>
     {

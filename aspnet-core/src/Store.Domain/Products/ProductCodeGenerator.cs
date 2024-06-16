@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
-namespace TeduEcommerce.Products
+namespace Store.Products
 {
     public class ProductCodeGenerator : ITransientDependency
     {

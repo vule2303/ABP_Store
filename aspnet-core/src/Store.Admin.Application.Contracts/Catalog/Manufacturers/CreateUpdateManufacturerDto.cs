@@ -1,4 +1,4 @@
-﻿namespace Store.Admin.Catalog.Manufacturers
+﻿namespace Store.Admin.Manufacturers
 {
     public class CreateUpdateManufacturerDto
     {

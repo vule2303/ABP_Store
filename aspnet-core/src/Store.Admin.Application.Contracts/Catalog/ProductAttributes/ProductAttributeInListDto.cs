@@ -1,10 +1,8 @@
 ﻿using Store.ProductAttributes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.Catalog.ProductAttributes
+namespace Store.Admin.ProductAttributes
 {
     public class ProductAttributeInListDto : EntityDto<Guid>
     {

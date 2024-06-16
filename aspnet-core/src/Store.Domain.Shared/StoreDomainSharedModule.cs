@@ -46,7 +46,7 @@ public class StoreDomainSharedModule : AbpModule
                 .Add<StoreResource>("en")
                 .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("Localization/Store");
-
+            
             options.DefaultResourceType = typeof(StoreResource);
         });
 

@@ -23,6 +23,17 @@ public class StoreAdminPermissionDefinitionProvider : PermissionDefinitionProvid
         attributePermission.AddChild(StoreAdminPermissions.Attribute.Create, L("Permission:Catalog.Attribute.Create"));
         attributePermission.AddChild(StoreAdminPermissions.Attribute.Update, L("Permission:Catalog.Attribute.Update"));
         attributePermission.AddChild(StoreAdminPermissions.Attribute.Delete, L("Permission:Catalog.Attribute.Delete"));
+        //Manufacture
+        var manufacturerPermission = catalogGroup.AddPermission(StoreAdminPermissions.Manufacturer.Default, L("Permission:Catalog.Manufacturer"));
+        manufacturerPermission.AddChild(StoreAdminPermissions.Manufacturer.Create, L("Permission:Catalog.Manufacturer.Create"));
+        manufacturerPermission.AddChild(StoreAdminPermissions.Manufacturer.Update, L("Permission:Catalog.Manufacturer.Update"));
+        manufacturerPermission.AddChild(StoreAdminPermissions.Manufacturer.Delete, L("Permission:Catalog.Manufacturer.Delete"));
+
+        //Product Category
+        var productCategoryPermission = catalogGroup.AddPermission(StoreAdminPermissions.ProductCategory.Default, L("Permission:Catalog.ProductCategory"));
+        productCategoryPermission.AddChild(StoreAdminPermissions.ProductCategory.Create, L("Permission:Catalog.ProductCategory.Create"));
+        productCategoryPermission.AddChild(StoreAdminPermissions.ProductCategory.Update, L("Permission:Catalog.ProductCategory.Update"));
+        productCategoryPermission.AddChild(StoreAdminPermissions.ProductCategory.Delete, L("Permission:Catalog.ProductCategory.Delete"));
     }
 
     private static LocalizableString L(string name)

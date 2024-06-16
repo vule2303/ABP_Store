@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
 
-namespace Store.Admin.System.Roles
+namespace Store.Admin.Roles
 {
     public class RoleDto : EntityDto<Guid>
     {

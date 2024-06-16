@@ -1,4 +1,4 @@
-﻿namespace Store.Admin.System.Roles
+﻿namespace Store.Admin.Roles
 {
     public class CreateUpdateRoleDto
     {

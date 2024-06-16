@@ -4,9 +4,10 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { UserDto } from '@proxy/system/users';
-import { UsersService } from '@proxy/system/users';
-import { RoleDto, RolesService } from '@proxy/system/roles';
+import { UserDto } from '@proxy/users';
+import { UsersService } from '@proxy/users';
+import { RoleDto, RolesService } from '@proxy/roles';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   templateUrl: 'user-detail.component.html',
@@ -35,6 +36,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     private userService: UsersService,
     public authService: AuthService,
     private utilService: UtilityService,
+    private notificationSerivce: NotificationService,
     private fb: FormBuilder
   ) {}
   ngOnDestroy(): void {
@@ -47,8 +49,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   // Validate
   validationMessages = {
     name: [{ type: 'required', message: 'Bạn phải nhập tên' }],
-    surname: [{ type: 'required', message: 'Bạn phải URL duy nhất' }],
-    email: [{ type: 'required', message: 'Bạn phải nhập email' }],
+    surname: [{ type: 'required', message: 'Bạn phải nhập họ' }],
+    email: [
+      { type: 'required', message: 'Bạn phải nhập email' },
+      { type: 'pattern', message: 'Email không đúng định dạng'}
+    ],
     userName: [{ type: 'required', message: 'Bạn phải nhập tài khoản' }],
     password: [
       { type: 'required', message: 'Bạn phải nhập mật khẩu' },
@@ -129,7 +134,8 @@ export class UserDetailComponent implements OnInit, OnDestroy {
             this.ref.close(this.form.value);
             this.toggleBlockUI(false);
           },
-          error: () => {
+          error: (err) => {
+            this.notificationSerivce.showError(err.error.error.message);
             this.toggleBlockUI(false);
           },
         });
@@ -182,7 +188,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       name: new FormControl(this.selectedEntity.name || null, Validators.required),
       surname: new FormControl(this.selectedEntity.surname || null, Validators.required),
       userName: new FormControl(this.selectedEntity.userName || null, Validators.required),
-      email: new FormControl(this.selectedEntity.email || null, Validators.required),
+      email: new FormControl(this.selectedEntity.email || null, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\.[a-zA-Z]{2,}$')]),
       phoneNumber: new FormControl(this.selectedEntity.phoneNumber || null, Validators.required),
       password: new FormControl(
         null,

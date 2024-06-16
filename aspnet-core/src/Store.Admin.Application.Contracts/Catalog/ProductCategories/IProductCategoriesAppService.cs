@@ -4,7 +4,7 @@ using System.Text;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Application.Dtos;
 using System.Threading.Tasks;
-namespace Store.Admin.Catalog.ProductCategories
+namespace Store.Admin.ProductCategories
 {
     public interface IProductCategoriesAppService : ICrudAppService
         <ProductCategoryDto, Guid, PagedResultRequestDto, CreateUpdateProductCategoryDto, CreateUpdateProductCategoryDto>

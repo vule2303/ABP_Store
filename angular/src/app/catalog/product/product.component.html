@@ -114,6 +114,7 @@
   <p-paginator 
       [rows]="maxResultCount" 
       [totalRecords]="totalCount" 
+      (onPageChange)="pageChanged($event)"
       [rowsPerPageOptions]="[10, 20, 30]"> 
   </p-paginator>
   <!-- Block UI -->

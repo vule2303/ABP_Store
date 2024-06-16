@@ -1,4 +1,4 @@
-﻿using Store.Admin.System.Users;
+﻿using Store.Admin.Users;
 using Store.Admin;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Account;
 
-namespace Store.Admin.System.Users
+namespace Store.Admin.Users
 {
     public interface IUsersAppService : ICrudAppService<
         UserDto,

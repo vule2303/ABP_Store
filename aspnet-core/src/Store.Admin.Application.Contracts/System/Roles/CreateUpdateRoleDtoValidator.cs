@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Store.Admin.System.Roles
+namespace Store.Admin.Roles
 {
     public class CreateUpdateRoleDtoValidator : AbstractValidator<CreateUpdateRoleDto>
     {
