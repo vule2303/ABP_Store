@@ -8,11 +8,11 @@ using Volo.Abp.Application.Services;
 namespace Store.Public.ProductAttributes
 {
     public interface IProductAttributesAppService : IReadOnlyAppService
-        <ProductAttributeDto,
-        Guid,
-        PagedResultRequestDto>
+       <ProductAttributeDto,
+       Guid,
+       PagedResultRequestDto>
     {
-        Task<PagedResultDto<ProductAttributeInListDto>> GetListFilterAsync(BaseListFilterDto input);
+        Task<PagedResult<ProductAttributeInListDto>> GetListFilterAsync(BaseListFilterDto input);
         Task<List<ProductAttributeInListDto>> GetListAllAsync();
     }
 }
