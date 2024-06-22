@@ -1,6 +1,10 @@
-﻿@model Store.Public.Products.ProductInListDto
+﻿@using Store.Public.Products
+@model Store.Public.Products.ProductInListDto
+@inject IProductsAppService _productsAppService;
 @{
     var url = $"/products/{Model.CategorySlug}/{Model.Slug}.html";
+    var fileContent = await _productsAppService.GetThumbnailImageAsync(Model.ThumbnailPicture);
+    var base64Image = Store.Helpers.ImageHelper.ShowBase64(Model.ThumbnailPicture, fileContent);
 }
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
     <div class="card-grid-style-3">
@@ -13,7 +17,7 @@
             </div>
             <div class="image-box">
                 @*<span class="label bg-brand-2">-17%</span>*@
-                <a href="@url"><img src="/assets/imgs/page/homepage1/imgsp3.png" alt="Ecom"></a>
+                <a href="@url"><img src="@base64Image" alt="Ecom"></a>
             </div>
             <div class="info-right">
                 <a class="font-xs color-gray-500" href="/manufacture/@(Model.ManufacturerId).html">@Model.ManufacturerName</a><br>
@@ -30,7 +34,7 @@
                     <strong class="font-lg-bold color-brand-3 price-main">@Model.SellPrice.ToString("N0")</strong>
                     @*<span class="color-gray-500 price-line">$3225.6</span>*@
                 </div>
-                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="/shop-cart.html">Add To Cart</a></div>
+                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="/shop-cart.html?action=add&id=@Model.Id">Add To Cart</a></div>
                 <ul class="list-features">
                     <li>27-inch (diagonal) Retina 5K display</li>
                     <li>3.1GHz 6-core 10th-generation Intel Core i5</li>

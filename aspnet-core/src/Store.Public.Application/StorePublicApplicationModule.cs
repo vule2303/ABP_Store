@@ -37,7 +37,7 @@ public class StorePublicApplicationModule : AbpModule
             {
                 container.UseFileSystem(fileSystem =>
                 {
-                    fileSystem.BasePath = "C:\\my-files";
+                    fileSystem.BasePath = "C:\\store";
                 });
             });
         });

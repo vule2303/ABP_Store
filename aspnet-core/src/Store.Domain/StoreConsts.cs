@@ -7,4 +7,5 @@ public static class StoreConsts
     public const string ProductIdentitySettingPrefix = "P";
 
     public const string DbSchema = null;
+    public const string Cart = "Cart";
 }

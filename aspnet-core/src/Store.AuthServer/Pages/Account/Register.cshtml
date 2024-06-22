@@ -38,12 +38,6 @@
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
 
                  </div>
-                        <div class="mb-3">
-                <label asp-for="Input.Password" class="form-label">Nhập lại mật khẩu</label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control"/>
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-
-                 </div>
             }
             <div class="d-grid gap-2">
                 <abp-button button-type="Primary" type="submit" class="btn-lg mt-4">@L["Đăng ký"]</abp-button>
