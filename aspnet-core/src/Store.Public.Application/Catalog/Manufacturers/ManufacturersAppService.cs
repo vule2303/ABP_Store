@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectMapping;
 
 namespace SAtore.Public.Manufacturers
 {
@@ -22,6 +23,11 @@ namespace SAtore.Public.Manufacturers
         {
         }
 
+        public async Task<ManufacturerDto> GetByIdAsync(Guid id)
+        {
+            var manufacturer = await Repository.GetAsync(id);
+            return ObjectMapper.Map<Manufacturer, ManufacturerDto>(manufacturer);
+        }
 
         public async Task<List<ManufacturerInListDto>> GetListAllAsync()
         {

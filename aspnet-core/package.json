@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@volo/account": "^8.1.4"
+  }
+}

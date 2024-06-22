@@ -1,10 +1,10 @@
 ﻿@model Store.Public.PagedResultBase
 @{
-    var urlTemplate = Url.Action() + "?page={0}";
+    var urlTemplate = Url.Action() + "?pageNumber={0}";
     var request = ViewContext.HttpContext.Request;
     foreach (var key in request.Query.Keys)
     {
-        if (key == "page")
+        if (key.Equals("pageNumber", StringComparison.OrdinalIgnoreCase))
         {
             continue;
         }
@@ -29,38 +29,29 @@
             <ul class="pagination">
             @if (Model.CurrentPage != startIndex)
             {
-                        <li class="page-item">
-                            <a class="page-link page-prev" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())" aria-label="Trước" title="Trang @Model.CurrentPage.ToString()">
-                                <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                <span class="sr-only">Trước</span>
-                            </a>
-                        </li>
+                <li class="page-item">
+                    <a class="page-link page-prev" href="@urlTemplate.Replace("{0}", 1.ToString())" aria-label="Trước" title="Trang @Model.CurrentPage.ToString()"></a>
+                </li>
             }
             @for (var i = startIndex; i <= finishIndex; i++)
             {
                 if (i == Model.CurrentPage)
                 {
-                                <li class="page-item active"><a class="page-link" href="#">@i</a></li>
+                    <li class="page-item"><a class="page-link active" href="#">@i</a></li>
                 }
                 else
                 {
-                                <li class="page-item">
-                                    <a class="page-link" href="@urlTemplate.Replace("{0}", i.ToString())" title="Trang @i.ToString()">@i</a>
-                                </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@urlTemplate.Replace("{0}", i.ToString())" title="Trang @i.ToString()">@i</a>
+                    </li>
                 }
             }
-
             @if (Model.CurrentPage != finishIndex)
             {
-                        <li class="page-item">
-                            <a class="page-link page-next" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())" aria-label="Sau" title="@Model.PageCount.ToString()">
-                                <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                <span class="sr-only">Sau</span>
-                            </a>
-                        </li>
+                <li class="page-item">
+                    <a class="page-link page-next" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())" aria-label="Sau" title="@Model.PageCount.ToString()"></a>
+                </li>
             }
-
             </ul>
     }
-
 </nav>

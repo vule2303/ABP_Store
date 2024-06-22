@@ -7,6 +7,7 @@ namespace Store.Public.Products
     public class ProductInListDto : EntityDto<Guid>
     {
         public Guid ManufacturerId { get; set; }
+        public string ManufacturerName { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string Slug { get; set; }

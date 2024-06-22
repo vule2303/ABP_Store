@@ -7,24 +7,27 @@ using Store.Public.ProductCategories;
 using Store.Public.Products;
 using Store.Public.Web.Models;
 using Volo.Abp.Caching;
+using Store.Public.Manufacturers;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace Store.Public.Web.Pages;
 
-public class IndexModel : PublicPageModel
+public class IndexPublicModel : PublicPageModel
 {
     private readonly IDistributedCache<HomeCacheItem> _distributedCache;
     private readonly IProductCategoriesAppService _productCategoriesAppService;
     private readonly IProductsAppService _productsAppService;
-
+    private readonly IManufacturersAppService _manufacturersAppService;
     public List<ProductCategoryInListDto> Categories { set; get; }
     public List<ProductInListDto> TopSellerProducts { set; get; }
 
-    public IndexModel(IProductCategoriesAppService productCategoriesAppService,
-        IProductsAppService productsAppService, IDistributedCache<HomeCacheItem> distributedCache)
+    public IndexPublicModel(IProductCategoriesAppService productCategoriesAppService,
+        IProductsAppService productsAppService, IDistributedCache<HomeCacheItem> distributedCache, IManufacturersAppService manufacturersAppService)
     {
         _productCategoriesAppService = productCategoriesAppService;
         _productsAppService = productsAppService;
         _distributedCache = distributedCache;
+        _manufacturersAppService = manufacturersAppService;
     }
 
     public async Task OnGetAsync()
@@ -38,7 +41,12 @@ public class IndexModel : PublicPageModel
                 category.Children = rootCategories.Where(x => x.ParentId == category.Id).ToList();
             }
 
-            var topSellerProducts = await _productsAppService.GetListTopSellerAsync(10);
+            var topSellerProducts = await _productsAppService.GetListTopSellerAsync(5);
+            foreach (var item in topSellerProducts)
+            {
+                var manufacturer = await _manufacturersAppService.GetByIdAsync(item.ManufacturerId);
+                item.ManufacturerName = manufacturer.Name;
+            }
             return new HomeCacheItem()
             {
                 TopSellerProducts = topSellerProducts,

@@ -14,7 +14,7 @@ namespace Store.Public.ProductCategories
         public bool Visibility { get; set; }
         public bool IsActive { get; set; }
         public Guid? ParentId { get; set; }
-
+        public int? productCount { get; set;}
         public List<ProductCategoryInListDto> Children { get; set; } = new List<ProductCategoryInListDto>();
     }
 }

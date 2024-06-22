@@ -1,0 +1,53 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@using Volo.Abp.Account.Settings
+@using Volo.Abp.Settings
+@inject IHtmlLocalizer<AccountResource> L
+@model Store.Pages.Account.Model.CustomRegisterModel
+
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+
+<div class="card mt-3 shadow-sm rounded">
+    <div class="card-body p-5">
+        <h4>@L["Đăng ký"]</h4>
+        <strong>
+            @L["Đã có tài khoản?"]
+            <a href="@Url.Page("./Login", new {returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash})" class="text-decoration-none">@L["Đăng nhập"]</a>
+        </strong>
+        <form method="post" class="mt-4">
+            @if (!Model.IsExternalLogin)
+            {
+            <div class="mb-3">
+                <label asp-for="Input.UserName" class="form-label">Usename</label>
+                <input asp-for="Input.UserName" class="form-control" auto-focus="true"/>
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+            } 
+             <div class="mb-3">
+            <label asp-for="Input.EmailAddress" class="form-label">Nhập Email</label>
+            <input asp-for="Input.EmailAddress" class="form-control"/>
+                <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
+
+             </div>
+            @if (!Model.IsExternalLogin)
+            {
+                      <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label">Nhập Mật khẩu</label>
+                    <input asp-for="Input.Password" class="form-control"/>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                 </div>
+                        <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label">Nhập lại mật khẩu</label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control"/>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+                 </div>
+            }
+            <div class="d-grid gap-2">
+                <abp-button button-type="Primary" type="submit" class="btn-lg mt-4">@L["Đăng ký"]</abp-button>
+            </div>
+        </form>
+    </div>
+</div>

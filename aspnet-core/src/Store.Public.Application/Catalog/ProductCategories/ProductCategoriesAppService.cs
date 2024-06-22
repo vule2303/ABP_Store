@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Store.ProductCategories;
+using Store.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Store.ProductCategories;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -18,10 +17,13 @@ namespace Store.Public.ProductCategories
         PagedResultRequestDto>, IProductCategoriesAppService
     {
         private readonly IRepository<ProductCategory, Guid> _productCategoryRepository;
-        public ProductCategoriesAppService(IRepository<ProductCategory, Guid> repository)
+        private readonly IRepository<Product> _productReponsitory;
+        public ProductCategoriesAppService(IRepository<ProductCategory, Guid> repository
+            ,IRepository<Product> productReponsitory)
             : base(repository)
         {
             _productCategoryRepository = repository;
+            _productReponsitory = productReponsitory;
         }
 
         public async Task<ProductCategoryDto> GetByCodeAsync(string code)
@@ -35,10 +37,24 @@ namespace Store.Public.ProductCategories
         {
             var query = await Repository.GetQueryableAsync();
             query = query.Where(x => x.IsActive == true);
+            int temp;
             var data = await AsyncExecuter.ToListAsync(query);
 
-            return ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data);
+            var getListProduct = await _productReponsitory.GetQueryableAsync();
+         
+            var categoryListDto = ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data);
 
+            foreach (var item in categoryListDto)
+            {
+                for (var i = 0; i < getListProduct.Count(); i++)
+                {
+                    temp = getListProduct.Count(p => p.CategoryId == item.Id);
+                    item.productCount = temp;
+                }
+
+            }
+
+            return categoryListDto;
         }
         public async Task<PagedResult<ProductCategoryInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {
@@ -57,6 +73,11 @@ namespace Store.Public.ProductCategories
                 input.CurrentPage,
                 input.PageSize
             );
+        }
+        public async Task<ProductCategoryDto> GetBySlugAsync(string slug)
+        {
+            var productCategory = await _productCategoryRepository.GetAsync(x => x.Slug == slug);
+            return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(productCategory);
         }
     }
 }
