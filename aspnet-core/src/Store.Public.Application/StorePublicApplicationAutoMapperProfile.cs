@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Store.Manufacturers;
+using Store.Orders;
 using Store.ProductAttributes;
 using Store.ProductCategories;
 using Store.Products;
+using Store.Public.Catalog.Orders;
 using Store.Public.Manufacturers;
 using Store.Public.ProductAttributes;
 using Store.Public.ProductCategories;
@@ -28,5 +30,8 @@ public class StorePublicApplicationAutoMapperProfile : Profile
         //Product attribute
         CreateMap<ProductAttribute, ProductAttributeDto>();
         CreateMap<ProductAttribute, ProductAttributeInListDto>();
+
+        //Order
+        CreateMap<Order, OrderDto>();
     }
 }

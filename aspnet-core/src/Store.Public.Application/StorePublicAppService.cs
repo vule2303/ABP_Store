@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Store.Localization;
+﻿using Store.Localization;
 using Volo.Abp.Application.Services;
 
 namespace Store.Public;
