@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AttributeComponent } from './attribute/attribute.component';
 import { ProductComponent } from './product/product.component';
 import { PermissionGuard } from '@abp/ng.core';
+import { CategoryComponent } from './category/category.component';
 const routes: Routes = [
   {
     path: 'product',
@@ -18,6 +19,14 @@ const routes: Routes = [
     canActivate: [PermissionGuard],
     data: {
       requiredPolicy: 'StoreAdminCatalog.Attribute',
+    },
+  },
+  {
+    path: 'category',
+    component: CategoryComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      requiredPolicy: 'StoreAdminCatalog.ProductCategory',
     },
   },
 ];

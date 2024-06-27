@@ -11,6 +11,9 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using Store.Admin.Permissions;
 using Store.ProductCategories;
+using Store.Products;
+using Volo.Abp.BlobStoring;
+using System.Text.RegularExpressions;
 
 namespace Store.Admin.ProductCategories
 {
@@ -23,7 +26,12 @@ namespace Store.Admin.ProductCategories
         CreateUpdateProductCategoryDto,
         CreateUpdateProductCategoryDto>, IProductCategoriesAppService
     {
-        public ProductCategoriesAppService(IRepository<ProductCategory, Guid> repository)
+        private readonly IBlobContainer<ProductThumbnailPictureContainer> _fileContainer;
+        private readonly ProductCodeGenerator _productCodeGenerator;
+        private readonly ProductCategoryManager _productCategoryManager;
+        public ProductCategoriesAppService(IRepository<ProductCategory, Guid> repository,
+            IBlobContainer<ProductThumbnailPictureContainer> fileContainer,
+            ProductCodeGenerator productCodeGenerator, ProductCategoryManager productCategoryManager)
             : base(repository)
         {
             GetPolicyName = StoreAdminPermissions.ProductCategory.Default;
@@ -31,6 +39,9 @@ namespace Store.Admin.ProductCategories
             CreatePolicyName = StoreAdminPermissions.ProductCategory.Create;
             UpdatePolicyName = StoreAdminPermissions.ProductCategory.Update;
             DeletePolicyName = StoreAdminPermissions.ProductCategory.Delete;
+            _fileContainer = fileContainer;
+            _productCodeGenerator = productCodeGenerator;
+            _productCategoryManager = productCategoryManager;
         }
 
         [Authorize(StoreAdminPermissions.ProductCategory.Delete)]
@@ -40,7 +51,28 @@ namespace Store.Admin.ProductCategories
             await Repository.DeleteManyAsync(ids);
             await UnitOfWorkManager.Current.SaveChangesAsync();
         }
+        [Authorize(StoreAdminPermissions.Product.Update)]
+        public override async Task<ProductCategoryDto> CreateAsync(CreateUpdateProductCategoryDto input)
+        {
+            var productCategory = await _productCategoryManager.CreateAsync(
+                input.Name,
+                input.Code,
+                input.Slug,
+                input.SortOrder,
+                input.Visibility,
+                input.IsActive,
+                input.SeoMetaDescription
+                );
+            if (input.CoverPictureName != null && input.CoverPictureContent.Length > 0)
+            {
+                await SaveThumbnailImageAsync(input.CoverPictureName, input.CoverPictureContent);
+                productCategory.CoverPicture = input.CoverPictureName;
+            }
 
+            var result = await Repository.InsertAsync(productCategory);
+
+            return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(result);
+        }
         [Authorize(StoreAdminPermissions.ProductCategory.Default)]
 
         public async Task<List<ProductCategoryInListDto>> GetListAllAsync()
@@ -52,7 +84,37 @@ namespace Store.Admin.ProductCategories
             return ObjectMapper.Map<List<ProductCategory>, List<ProductCategoryInListDto>>(data);
 
         }
+        [Authorize(StoreAdminPermissions.ProductCategory.Default)]
+        public async Task<string> GetThumbnailImageAsync(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+            var thumbnailContent = await _fileContainer.GetAllBytesOrNullAsync(fileName);
 
+            if (thumbnailContent is null)
+            {
+                return null;
+            }
+            var result = Convert.ToBase64String(thumbnailContent);
+            return result;
+        }
+
+        [Authorize(StoreAdminPermissions.ProductCategory.Default)]
+        public async Task<string> GetSuggestNewCodeAsync()
+        {
+            return await _productCodeGenerator.GenerateAsync();
+        }
+        [Authorize(StoreAdminPermissions.Product.Update)]
+
+        private async Task SaveThumbnailImageAsync(string fileName, string base64)
+        {
+            Regex regex = new Regex(@"^[\w/\:.-]+;base64,");
+            base64 = regex.Replace(base64, string.Empty);
+            byte[] bytes = Convert.FromBase64String(base64);
+            await _fileContainer.SaveAsync(fileName, bytes, overrideExisting: true);
+        }
         [Authorize(StoreAdminPermissions.ProductCategory.Default)]
 
         public async Task<PagedResultDto<ProductCategoryInListDto>> GetListWithFilterAsync(BaseListFilterDto input)

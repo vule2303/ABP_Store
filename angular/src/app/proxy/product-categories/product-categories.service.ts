@@ -71,6 +71,25 @@ export class ProductCategoriesService {
     { apiName: this.apiName });
   
 
+  getSuggestNewCode = () =>
+    this.restService.request<any, string>({
+      method: 'GET',
+      responseType: 'text',
+      url: '/api/app/product-categories/suggest-new-code',
+    },
+    { apiName: this.apiName });
+  
+
+  getThumbnailImage = (fileName: string) =>
+    this.restService.request<any, string>({
+      method: 'GET',
+      responseType: 'text',
+      url: '/api/app/product-categories/thumbnail-image',
+      params: { fileName },
+    },
+    { apiName: this.apiName });
+  
+
   update = (id: string, input: CreateUpdateProductCategoryDto) =>
     this.restService.request<any, ProductCategoryDto>({
       method: 'PUT',

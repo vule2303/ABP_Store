@@ -5,11 +5,12 @@ export interface CreateUpdateProductCategoryDto {
   code?: string;
   slug?: string;
   sortOrder: number;
-  coverPicture?: string;
   visibility: boolean;
   isActive: boolean;
   parentId?: string;
   seoMetaDescription?: string;
+  coverPictureName?: string;
+  coverPictureContent?: string;
 }
 
 export interface ProductCategoryDto {

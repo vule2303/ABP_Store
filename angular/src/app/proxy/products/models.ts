@@ -22,6 +22,7 @@ export interface CreateUpdateProductDto {
 
 export interface ProductDto {
   manufacturerId?: string;
+  manufaturerName?: string;
   name?: string;
   code?: string;
   slug?: string;

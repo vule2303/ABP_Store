@@ -9,6 +9,30 @@ namespace Store.ProductCategories
 {
     public class ProductCategory : CreationAuditedAggregateRoot<Guid>
     {
+        public ProductCategory(
+            Guid id,
+            string name,
+            string code,
+            string slug,
+            int sortOrder,
+            Guid? parentId,
+            bool visibility,
+            bool isActive,
+            string seoMetaDescription,
+            string coverPicture
+        ) 
+        {
+            Id = id;
+            Name = name;
+            Code = code;
+            Slug = slug;
+            SortOrder = sortOrder;
+            ParentId = parentId;
+            Visibility = visibility;
+            IsActive = isActive;
+            SeoMetaDescription = seoMetaDescription;
+            CoverPicture = coverPicture;
+        }
         public string Name { get; set; }
         public string Code { get; set; }
         public string Slug { get; set; }
