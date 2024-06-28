@@ -56,7 +56,6 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     this.initFormData();
   }
 
-
   initFormData() {
     //Load edit data to form
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
@@ -142,7 +141,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
       coverPictureName: new FormControl(this.selectedEntity.coverPicture || null),
       coverPictureContent: new FormControl(null),
     });
- 
+
   }
   //load thumbnail picture
   loadThumbnail(filename: string) {
@@ -184,7 +183,6 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
           coverPictureName: file.name,
           coverPictureContent: reader.result,
         });
-
         // need to run CD since file load runs outside of zone
         this.cd.markForCheck();
       };

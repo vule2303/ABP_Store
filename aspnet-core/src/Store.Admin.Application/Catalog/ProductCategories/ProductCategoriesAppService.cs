@@ -14,6 +14,8 @@ using Store.ProductCategories;
 using Store.Products;
 using Volo.Abp.BlobStoring;
 using System.Text.RegularExpressions;
+using Store.Admin.Products;
+using Volo.Abp;
 
 namespace Store.Admin.ProductCategories
 {
@@ -51,7 +53,7 @@ namespace Store.Admin.ProductCategories
             await Repository.DeleteManyAsync(ids);
             await UnitOfWorkManager.Current.SaveChangesAsync();
         }
-        [Authorize(StoreAdminPermissions.Product.Update)]
+        [Authorize(StoreAdminPermissions.ProductCategory.Create)]
         public override async Task<ProductCategoryDto> CreateAsync(CreateUpdateProductCategoryDto input)
         {
             var productCategory = await _productCategoryManager.CreateAsync(
@@ -72,6 +74,28 @@ namespace Store.Admin.ProductCategories
             var result = await Repository.InsertAsync(productCategory);
 
             return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(result);
+        }
+        [Authorize(StoreAdminPermissions.ProductCategory.Update)]
+
+        public override async Task<ProductCategoryDto> UpdateAsync(Guid id, CreateUpdateProductCategoryDto input)
+        {
+            var category = await Repository.GetAsync(id);
+            if (category == null)
+                throw new BusinessException(StoreDomainErrorCodes.ProductCategoryIsNotExists);
+            category.Name = input.Name;
+            category.Code = input.Code;
+            category.Slug = input.Slug;
+            category.SortOrder = input.SortOrder;
+            category.Visibility = input.Visibility;
+            category.IsActive = input.IsActive;
+            category.SeoMetaDescription = input.SeoMetaDescription;
+            if (input.CoverPictureContent != null && input.CoverPictureContent.Length > 0)
+            {
+                await SaveThumbnailImageAsync(input.CoverPictureName, input.CoverPictureContent);
+                category.CoverPicture = input.CoverPictureName;
+            }
+            await Repository.UpdateAsync(category);
+            return ObjectMapper.Map<ProductCategory, ProductCategoryDto>(category);
         }
         [Authorize(StoreAdminPermissions.ProductCategory.Default)]
 

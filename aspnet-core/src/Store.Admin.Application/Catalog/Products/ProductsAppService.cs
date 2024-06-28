@@ -70,7 +70,7 @@ namespace Store.Admin.Products
             DeletePolicyName = StoreAdminPermissions.Product.Delete;
         }
 
-        [Authorize(StoreAdminPermissions.Product.Update)]
+        [Authorize(StoreAdminPermissions.Product.Create)]
         public override async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
             var product = await _productManager.CreateAsync(
