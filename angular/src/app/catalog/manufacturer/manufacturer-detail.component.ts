@@ -7,12 +7,13 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { UtilityService } from '../../shared/services/utility.service';
 import { ProductCategoriesService, ProductCategoryDto } from '@proxy/product-categories';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ManufacturerDto, ManufacturersService } from '@proxy/manufacturers';
 
 @Component({
-  selector: 'app-category-detail',
-  templateUrl: './category-detail.component.html',
+  selector: 'app-manufacturer-detail',
+  templateUrl: './manufacturer-detail.component.html',
 })
-export class CategoryDetailComponent implements OnInit, OnDestroy {
+export class ManufacturerDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   blockedPanel: boolean = false;
   btnDisabled = false;
@@ -20,10 +21,10 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
   public coverPicture;
   //Dropdown
   dataTypes: any[] = [];
-  selectedEntity = {} as ProductCategoryDto;
+  selectedEntity = {} as ManufacturerDto;
 
   constructor(
-    private categoryService: ProductCategoriesService,
+    private manufacturerService: ManufacturersService,
     private fb: FormBuilder,
     private config: DynamicDialogConfig,
     private ref: DynamicDialogRef,
@@ -39,7 +40,6 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
       { type: 'required', message: 'Bạn phải nhập nhãn hiển thị' },
       { type: 'maxlength', message: 'Bạn không được nhập quá 255 kí tự' },
     ],
-    sortOrder: [{ type: 'required', message: 'Bạn phải nhập thứ tự' }],
   };
 
   ngOnDestroy(): void {
@@ -60,6 +60,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     //Load edit data to form
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
       this.toggleBlockUI(false);
+      this.getNewSuggestionCode();
     } else {
       this.loadFormDetails(this.config.data?.id);
     }
@@ -67,7 +68,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
 
   loadFormDetails(id: string) {
     this.toggleBlockUI(true);
-    this.categoryService
+    this.manufacturerService
       .get(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
@@ -87,7 +88,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
 
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
-      this.categoryService
+      this.manufacturerService
         .create(this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
@@ -101,7 +102,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.categoryService
+      this.manufacturerService
         .update(this.config.data?.id, this.form.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
@@ -133,19 +134,18 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
         Validators.compose([Validators.required, Validators.maxLength(250)])
       ),
       code: new FormControl(this.selectedEntity.code || null, Validators.required),
-      sortOrder: new FormControl(this.selectedEntity.sortOrder || null, Validators.required),
       slug: new FormControl(this.selectedEntity.slug || null, Validators.required),
+      country: new FormControl(this.selectedEntity.country || null, Validators.required),
       visibility: new FormControl(this.selectedEntity.visibility || false),
       isActive: new FormControl(this.selectedEntity.isActive || false),
-      seoMetaDescription: new FormControl(this.selectedEntity.seoMetaDescription || null),
       coverPictureName: new FormControl(this.selectedEntity.coverPicture || null),
       coverPictureContent: new FormControl(null),
     });
 
   }
-  //load thumbnail picture
+  //loadthumb nail picture
   loadThumbnail(filename: string) {
-    this.categoryService.getThumbnailImage(filename)
+    this.manufacturerService.getThumbnailImage(filename)
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe({
       next: (response: string) => {
@@ -158,7 +158,7 @@ export class CategoryDetailComponent implements OnInit, OnDestroy {
   }
   //get new suggestion code
   getNewSuggestionCode() {
-    this.categoryService
+    this.manufacturerService
       .getSuggestNewCode()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({

@@ -5,37 +5,36 @@ import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, take, takeUntil } from 'rxjs';
 import { NotificationService } from '../../shared/services/notification.service';
-import { CategoryDetailComponent } from './category-detail.component';
+import { ManufacturerDetailComponent } from './manufacturer-detail.component';
 import { ProductCategoriesService, ProductCategoryDto, ProductCategoryInListDto } from '@proxy/product-categories';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ManufacturerInListDto, ManufacturersService } from '@proxy/manufacturers';
 
 @Component({
   selector: 'app-category',
-  templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss'],
+  templateUrl: './manufacturer.component.html',
+  styleUrls: ['./manufacturer.component.scss'],
 })
-export class CategoryComponent implements OnInit, OnDestroy {
+export class ManufacturerComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   blockedPanel: boolean = false;
-  items: ProductCategoryInListDto[] = [];
-  public selectedItems: ProductCategoryInListDto[] = [];
-  public coverPicture;
-  selectedEntity = {} as ProductCategoryDto;
+  items: ManufacturerInListDto[] = [];
+  public selectedItems: ManufacturerInListDto[] = [];
+
   //Paging variables
   public skipCount: number = 0;
   public maxResultCount: number = 10;
   public totalCount: number;
+
   //Filter
   ProductCategories: any[] = [];
   keyword: string = '';
   categoryId: string = '';
 
   constructor(
-    private categoryService: ProductCategoriesService,
+    private manufacturerService: ManufacturersService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
-    private confirmationService: ConfirmationService,
-    private sanitizer: DomSanitizer,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnDestroy(): void {
@@ -49,8 +48,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.toggleBlockUI(true);
-    this.categoryService
-      .getListWithFilter({
+    this.manufacturerService
+      .getListFilter({
         keyword: this.keyword,
         maxResultCount: this.maxResultCount,
         skipCount: this.skipCount,
@@ -60,7 +59,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (response: PagedResultDto<ProductCategoryInListDto>) => {
           this.items = response.items;
           console.log('items', this.items);
-          
           this.totalCount = response.totalCount;
           this.toggleBlockUI(false);
         },
@@ -69,26 +67,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
         },
       });
   }
-  //load thumbnail picture
-  loadThumbnail(filename: string) {
-    this.categoryService.getThumbnailImage(filename)
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe({
-      next: (response: string) => {
-        var fileExt = this.selectedEntity.coverPicture.split('.').pop();
-        this.coverPicture = this.sanitizer.bypassSecurityTrustResourceUrl(
-          `data:image/${fileExt};base64,${response}`
-        );
-      },
-    })
-  }
+
   pageChanged(event: any): void {
     this.skipCount = (event.page) * this.maxResultCount;
     this.maxResultCount = event.rows;
     this.loadData();
   }
   showAddModal() {
-    const ref = this.dialogService.open(CategoryDetailComponent, {
+    const ref = this.dialogService.open(ManufacturerDetailComponent, {
       header: 'Thêm mới loại sản phẩm',
       width: '70%',
     });
@@ -108,7 +94,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       return;
     }
     const id = this.selectedItems[0].id;
-    const ref = this.dialogService.open(CategoryDetailComponent, {
+    const ref = this.dialogService.open(ManufacturerDetailComponent, {
       data: {
         id: id,
       },
@@ -144,7 +130,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   deleteItemsConfirmed(ids: string[]){
     this.toggleBlockUI(true);
-    this.categoryService.deleteMultiple(ids).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
+    this.manufacturerService.deleteMultiple(ids).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: ()=>{
         this.notificationService.showSuccess("Xóa thành công");
         this.loadData();

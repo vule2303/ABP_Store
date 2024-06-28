@@ -130,7 +130,7 @@ namespace Store.Admin.ProductCategories
         {
             return await _productCodeGenerator.GenerateAsync();
         }
-        [Authorize(StoreAdminPermissions.Product.Update)]
+        [Authorize(StoreAdminPermissions.ProductCategory.Update)]
 
         private async Task SaveThumbnailImageAsync(string fileName, string base64)
         {

@@ -4,6 +4,7 @@ import { AttributeComponent } from './attribute/attribute.component';
 import { ProductComponent } from './product/product.component';
 import { PermissionGuard } from '@abp/ng.core';
 import { CategoryComponent } from './category/category.component';
+import { ManufacturerComponent } from './manufacturer/manufacturer.component';
 const routes: Routes = [
   {
     path: 'product',
@@ -27,6 +28,14 @@ const routes: Routes = [
     canActivate: [PermissionGuard],
     data: {
       requiredPolicy: 'StoreAdminCatalog.ProductCategory',
+    },
+  },
+  {
+    path: 'manufacturer',
+    component: ManufacturerComponent,
+    canActivate: [PermissionGuard],
+    data: {
+      requiredPolicy: 'StoreAdminCatalog.Manufacturer',
     },
   },
 ];

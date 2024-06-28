@@ -14,5 +14,7 @@ public static class StoreDomainErrorCodes
     public const string RoleNameAlreadyExists = "Store:RoleNameAlreadyExists";
     public const string ProductCategoryNameAlreadyExists = "Store:ProductCategoryNameAlreadyExists";
     public const string ProductCategoryCodeAlreadyExists = "Store:ProductCategoryCodeAlreadyExists";
+    public const string ManufacturerNameAlreadyExists = "Store:ManufacturerNameAlreadyExists";
+    public const string ManufacturerCodeAlreadyExists = "Store:ManufacturerCodeAlreadyExists";
    
 }

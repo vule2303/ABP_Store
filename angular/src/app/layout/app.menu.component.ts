@@ -33,6 +33,12 @@ export class AppMenuComponent implements OnInit {
             permission: 'StoreAdminCatalog.ProductCategory',
           },
           {
+            label: 'Danh sách nhà cung cấp',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/catalog/manufacturer'],
+            permission: 'StoreAdminCatalog.Manufacturer',
+          },
+          {
             label: 'Danh sách thuộc tính',
             icon: 'pi pi-fw pi-circle',
             routerLink: ['/catalog/attribute'],

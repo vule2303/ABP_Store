@@ -71,6 +71,25 @@ export class ManufacturersService {
     { apiName: this.apiName });
   
 
+  getSuggestNewCode = () =>
+    this.restService.request<any, string>({
+      method: 'GET',
+      responseType: 'text',
+      url: '/api/app/manufacturers/suggest-new-code',
+    },
+    { apiName: this.apiName });
+  
+
+  getThumbnailImage = (fileName: string) =>
+    this.restService.request<any, string>({
+      method: 'GET',
+      responseType: 'text',
+      url: '/api/app/manufacturers/thumbnail-image',
+      params: { fileName },
+    },
+    { apiName: this.apiName });
+  
+
   update = (id: string, input: CreateUpdateManufacturerDto) =>
     this.restService.request<any, ManufacturerDto>({
       method: 'PUT',

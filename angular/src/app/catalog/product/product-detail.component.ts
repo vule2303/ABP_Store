@@ -121,6 +121,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: ProductDto) => {
+
           this.selectedEntity = response;
           this.loadThumbnail(this.selectedEntity.thumbnailPicture);
           this.buildForm();
@@ -191,8 +192,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       productType: new FormControl(this.selectedEntity.productType || null, Validators.required),
       sortOrder: new FormControl(this.selectedEntity.sortOrder || null, Validators.required),
       sellPrice: new FormControl(this.selectedEntity.sellPrice || null, Validators.required),
-      visibility: new FormControl(this.selectedEntity.visibility || true),
-      isActive: new FormControl(this.selectedEntity.isActive || true),
+      visibility: new FormControl(this.selectedEntity.visibility || false),
+      isActive: new FormControl(this.selectedEntity.isActive || false),
       seoMetaDescription: new FormControl(this.selectedEntity.seoMetaDescription || null),
       description: new FormControl(this.selectedEntity.description || null),
       thumbnailPictureName: new FormControl(this.selectedEntity.thumbnailPicture || null),

@@ -58,7 +58,6 @@
         </th>
         <th>Mã</th>
         <th>Tên</th>
-        <th>Thứ tự</th>
         <th>Hiển thị</th>
         <th>Kích hoạt</th>
       </tr>
@@ -71,7 +70,6 @@
         </td>
         <td>{{ row.code }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.sortOrder }}</td>
         <td>
           <p-badge *ngIf="row.visibility == 1" severity="success" value="Hiển thị"></p-badge>
           <p-badge *ngIf="row.visibility == 0" severity="danger" value="Ẩn"></p-badge>

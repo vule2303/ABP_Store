@@ -4,10 +4,11 @@ export interface CreateUpdateManufacturerDto {
   name?: string;
   code?: string;
   slug?: string;
-  coverPicture?: string;
   visibility: boolean;
   isActive: boolean;
   country?: string;
+  coverPictureName?: string;
+  coverPictureContent?: string;
 }
 
 export interface ManufacturerDto {

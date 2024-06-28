@@ -1,0 +1,77 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết loại sản phẩm">
+    <!--form grid-->
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <label for="name" class="block">Tên <span class="required">*</span></label>
+        <input id="name" pInputText type="text" (keyup)="generateSlug()" class="w-full" formControlName="name" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="name"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="code" class="block">Code <span class="required">*</span></label>
+        <input id="code" pInputText type="text" formControlName="code" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="code"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="slug" class="block">Slug <span class="required">*</span></label>
+        <input id="slug" pInputText type="text" class="w-full" formControlName="slug" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="slug"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="country" class="block">Quốc gia <span class="required">*</span></label>
+        <input id="country" pInputText type="text" class="w-full" formControlName="country" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="country"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="coverPicture" class="block">Hình ảnh</label>
+        <input id="coverPicture" type="file" (change)="onFileChange($event)" class="w-full">
+      </div>
+      <div class="field col-12 md:col-6">
+        <p-image
+          [src]="coverPicture"
+          [alt]="selectedEntity.name"
+          width="250"
+          [preview]="true"
+        ></p-image>
+      </div>
+      <div class="field-checkbox col-12 md:col-3">
+        <p-checkbox formControlName="visibility" binary="true" id="visibility"></p-checkbox>
+        <label for="visibility">Hiển thị</label>
+      </div>
+      <div class="field-checkbox col-12 md:col-3">
+        <p-checkbox formControlName="isActive" binary="true" id="isActive"></p-checkbox>
+        <label for="isActive">Kích hoạt</label>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+    <!--Block UI-->
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>
