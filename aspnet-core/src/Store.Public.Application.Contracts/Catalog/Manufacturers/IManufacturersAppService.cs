@@ -14,5 +14,7 @@ namespace Store.Public.Manufacturers
         Task<PagedResult<ManufacturerInListDto>> GetListFilterAsync(BaseListFilterDto input);
         Task<List<ManufacturerInListDto>> GetListAllAsync();
         Task<ManufacturerDto> GetByIdAsync(Guid id);
+        Task<ManufacturerDto> GetByCodeAsync(string code);
+        Task<string> GetThumbnailImageAsync(string fileName);
     }
 }

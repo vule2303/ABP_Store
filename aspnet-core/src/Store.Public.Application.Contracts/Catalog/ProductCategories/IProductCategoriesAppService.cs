@@ -15,5 +15,6 @@ namespace Store.Public.ProductCategories
         Task<List<ProductCategoryInListDto>> GetListAllAsync();
         Task<ProductCategoryDto> GetByCodeAsync(string code);
         Task<ProductCategoryDto> GetBySlugAsync(string slug);
+        Task<string> GetThumbnailImageAsync(string fileName);
     }
 }

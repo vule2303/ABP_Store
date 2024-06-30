@@ -1,0 +1,16 @@
+﻿@using Store.Public.ProductCategories
+@model Store.Public.ProductCategories.ProductCategoryInListDto
+@inject IProductCategoriesAppService _productCategoriesAppService;
+@{
+    var url = $"/products/{Model.Code}.html";
+    var fileContent = await _productCategoriesAppService.GetThumbnailImageAsync(Model.CoverPicture);
+    var base64Image = Store.Helpers.ImageHelper.ShowBase64(Model.CoverPicture, fileContent);
+}
+<li>
+    <div class="box-category hover-up">
+        <div class="image"><a href="@url"><img src=@base64Image alt="Ecom"></a></div>
+        <div class="text-info"><a class="font-sm color-gray-900 font-bold" href="@url">@Model.Name</a>
+        <p class="font-xs color-gray-500">@Model.productCount sản phẩm</p>
+        </div>
+    </div>
+</li> 

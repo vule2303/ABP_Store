@@ -1,0 +1,21 @@
+﻿@using Store.Public.Manufacturers
+@model Store.Public.Manufacturers.ManufacturerInListDto
+@inject IManufacturersAppService _manufacturersAppservice;
+@{
+    var url = $"/manufacturer/{Model.Code}.html";
+    var fileContent = await _manufacturersAppservice.GetThumbnailImageAsync(Model.CoverPicture);
+    var base64Image = Store.Helpers.ImageHelper.ShowBase64(Model.CoverPicture, fileContent);
+}
+<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+    <div class="card-grid-style-4">
+    <div class="card-grid-inner">
+        <div class="image-box"><a href="@url"><img src="@base64Image" alt="Ecom"></a></div>
+        <div class="info-right"><a href="@url"><h4 class="mb-10">@Model.Name</h4></a>
+        <p class="font-xs color-brand-3">PC, Laptop, Smart Watch, Gaming Gear ...</p>
+        <div class="divide mb-5"></div>
+        <div class="font-lg-bold color-brand-3">Giảm giá tới 25%</div>
+        <div class="box-link"><a class="btn btn-link-brand-2 btn-arrow-brand-2 btn-arrow-small text-lowercase pt-0 pb-0" href="@url">Mua ngay</a></div>
+        </div>
+    </div>
+    </div>
+</div>

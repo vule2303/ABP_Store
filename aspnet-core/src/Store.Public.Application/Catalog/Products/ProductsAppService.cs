@@ -64,7 +64,8 @@ namespace Store.Public.Products
         {
             var query = await Repository.GetQueryableAsync();
             query = query.WhereIf(!string.IsNullOrWhiteSpace(input.Keyword), x => x.Name.Contains(input.Keyword));
-            query = query.WhereIf(input.CategoryId.HasValue, x => x.CategoryId == input.CategoryId);    
+            query = query.WhereIf(input.CategoryId.HasValue, x => x.CategoryId == input.CategoryId);
+            query = query.WhereIf(input.ManufacturerId.HasValue, x => x.ManufacturerId == input.ManufacturerId);
             var totalCount = await AsyncExecuter.LongCountAsync(query);
             var data = await AsyncExecuter
             .ToListAsync(

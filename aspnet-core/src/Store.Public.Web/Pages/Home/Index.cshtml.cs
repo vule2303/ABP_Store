@@ -19,6 +19,7 @@ public class IndexPublicModel : PublicPageModel
     private readonly IProductsAppService _productsAppService;
     private readonly IManufacturersAppService _manufacturersAppService;
     public List<ProductCategoryInListDto> Categories { set; get; }
+    public List<ManufacturerInListDto> Manufacturers { set; get; }
     public List<ProductInListDto> TopSellerProducts { set; get; }
 
     public IndexPublicModel(IProductCategoriesAppService productCategoriesAppService,
@@ -35,6 +36,7 @@ public class IndexPublicModel : PublicPageModel
         var cacheItem = await _distributedCache.GetOrAddAsync(StorePublicConsts.CacheKeys.HomeData, async () =>
         {
             var allCategories = await _productCategoriesAppService.GetListAllAsync();
+            var allManufacturers = await _manufacturersAppService.GetListAllAsync();
             var rootCategories = allCategories.Where(x => x.ParentId == null).ToList();
             foreach (var category in rootCategories)
             {
@@ -50,7 +52,8 @@ public class IndexPublicModel : PublicPageModel
             return new HomeCacheItem()
             {
                 TopSellerProducts = topSellerProducts,
-                Categories = rootCategories
+                Categories = rootCategories,
+                Manufacturers = allManufacturers
             };
 
         },
@@ -61,6 +64,7 @@ public class IndexPublicModel : PublicPageModel
 
         TopSellerProducts = cacheItem.TopSellerProducts;
         Categories = cacheItem.Categories;
+        Manufacturers = cacheItem.Manufacturers;
 
     }
 }

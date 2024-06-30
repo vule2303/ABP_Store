@@ -1,24 +1,27 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Store.Public.Manufacturers;
 using Store.Public.ProductCategories;
 using Store.Public.Products;
-using Store.Public.Manufacturers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Store.Public.Web.Pages.Products
 {
-    public class CategoryModel : PageModel
+    public class ManufacturerModel : PageModel
     {
+        public ManufacturerDto Manufacturer { set; get; }
         public ProductCategoryDto Category { set; get; }
 
         public List<ProductCategoryInListDto> Categories { set; get; }
         public List<ManufacturerInListDto> Manufacturers { set; get; }
+
         public PagedResult<ProductInListDto> ProductData { set; get; }
 
         private readonly IProductCategoriesAppService _productCategoriesAppService;
         private readonly IProductsAppService _productsAppService;
         private readonly IManufacturersAppService _manufacturersAppService;
-        public CategoryModel(IProductCategoriesAppService productCategoriesAppService,
+        public ManufacturerModel(IProductCategoriesAppService productCategoriesAppService,
             IProductsAppService productsAppService, IManufacturersAppService manufacturersAppService)
         {
             _productCategoriesAppService = productCategoriesAppService;
@@ -29,13 +32,13 @@ namespace Store.Public.Web.Pages.Products
         public async Task OnGetAsync(string code, int? pageNumber)
         {
             int pageNumberValue = pageNumber ?? 1;
-            Category = await _productCategoriesAppService.GetByCodeAsync(code);
+            Manufacturer = await _manufacturersAppService.GetByCodeAsync(code);
             Categories = await _productCategoriesAppService.GetListAllAsync();
             Manufacturers = await _manufacturersAppService.GetListAllAsync();
-            ProductData = await _productsAppService.GetListFilterAsync(new ProductListFilterDto()
+           ProductData = await _productsAppService.GetListFilterAsync(new ProductListFilterDto()
             {
                 CurrentPage = pageNumberValue,
-                CategoryId = Category.Id,
+                ManufacturerId = Manufacturer.Id,
             });
             if (ProductData != null && ProductData.Results != null)
             {
@@ -44,8 +47,8 @@ namespace Store.Public.Web.Pages.Products
                     var manufacturer = await _manufacturersAppService.GetByIdAsync(product.ManufacturerId);
                     if (manufacturer != null)
                     {
-                       product.ManufacturerName = manufacturer.Name;
-                    } 
+                        product.ManufacturerName = manufacturer.Name;
+                    }
                 }
             }
 

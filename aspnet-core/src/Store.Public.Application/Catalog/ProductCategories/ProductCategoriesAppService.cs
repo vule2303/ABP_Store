@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
 
 namespace Store.Public.ProductCategories
@@ -17,13 +18,16 @@ namespace Store.Public.ProductCategories
         PagedResultRequestDto>, IProductCategoriesAppService
     {
         private readonly IRepository<ProductCategory, Guid> _productCategoryRepository;
+        private readonly IBlobContainer<ProductThumbnailPictureContainer> _fileContainer;
         private readonly IRepository<Product> _productReponsitory;
         public ProductCategoriesAppService(IRepository<ProductCategory, Guid> repository
-            ,IRepository<Product> productReponsitory)
+            ,IRepository<Product> productReponsitory,
+            IBlobContainer<ProductThumbnailPictureContainer> fileContainer)
             : base(repository)
         {
             _productCategoryRepository = repository;
             _productReponsitory = productReponsitory;
+            _fileContainer = fileContainer;
         }
 
         public async Task<ProductCategoryDto> GetByCodeAsync(string code)
@@ -55,6 +59,21 @@ namespace Store.Public.ProductCategories
             }
 
             return categoryListDto;
+        }
+        public async Task<string> GetThumbnailImageAsync(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+            var thumbnailContent = await _fileContainer.GetAllBytesOrNullAsync(fileName);
+
+            if (thumbnailContent is null)
+            {
+                return null;
+            }
+            var result = Convert.ToBase64String(thumbnailContent);
+            return result;
         }
         public async Task<PagedResult<ProductCategoryInListDto>> GetListFilterAsync(BaseListFilterDto input)
         {

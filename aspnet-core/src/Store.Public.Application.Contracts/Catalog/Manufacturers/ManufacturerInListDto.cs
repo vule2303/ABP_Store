@@ -12,5 +12,6 @@ namespace Store.Public.Manufacturers
         public bool Visibility { get; set; }
         public bool IsActive { get; set; }
         public string Country { get; set; }
+        public int productCount { get; set; }
     }
 }
