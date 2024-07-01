@@ -222,6 +222,17 @@ namespace Store.Public.Products
 
             return ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data);
         }
+        public async Task<List<ProductInListDto>> GetListRandomAsync(int numberOfRecords)
+        {
+            var query = await Repository.GetQueryableAsync();
+            query = query.Where(x => x.IsActive == true)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(numberOfRecords);
+
+            var data = await AsyncExecuter.ToListAsync(query);
+
+            return ObjectMapper.Map<List<Product>, List<ProductInListDto>>(data);
+        }
         public async Task<ProductDto> GetBySlugAsync(string slug)
         {
             var product = await _productRepository.GetAsync(x => x.Slug == slug);

@@ -21,9 +21,15 @@ public class IndexPublicModel : PublicPageModel
     public List<ProductCategoryInListDto> Categories { set; get; }
     public List<ManufacturerInListDto> Manufacturers { set; get; }
     public List<ProductInListDto> TopSellerProducts { set; get; }
+    public List<ProductInListDto> GetProductRandomList { set; get; }
+    public List<ProductInListDto> GetTopManufacturerProductList { set; get; }
+    public List<ProductInListDto> TopWatchProduct { set; get; }
 
-    public IndexPublicModel(IProductCategoriesAppService productCategoriesAppService,
-        IProductsAppService productsAppService, IDistributedCache<HomeCacheItem> distributedCache, IManufacturersAppService manufacturersAppService)
+    public IndexPublicModel(
+        IProductCategoriesAppService productCategoriesAppService,
+        IProductsAppService productsAppService, 
+        IDistributedCache<HomeCacheItem> distributedCache, 
+        IManufacturersAppService manufacturersAppService)
     {
         _productCategoriesAppService = productCategoriesAppService;
         _productsAppService = productsAppService;
@@ -33,8 +39,7 @@ public class IndexPublicModel : PublicPageModel
 
     public async Task OnGetAsync()
     {
-        var cacheItem = await _distributedCache.GetOrAddAsync(StorePublicConsts.CacheKeys.HomeData, async () =>
-        {
+      
             var allCategories = await _productCategoriesAppService.GetListAllAsync();
             var allManufacturers = await _manufacturersAppService.GetListAllAsync();
             var rootCategories = allCategories.Where(x => x.ParentId == null).ToList();
@@ -44,27 +49,22 @@ public class IndexPublicModel : PublicPageModel
             }
 
             var topSellerProducts = await _productsAppService.GetListTopSellerAsync(5);
-            foreach (var item in topSellerProducts)
+            var getProductRandomList = await _productsAppService.GetListRandomAsync(5);
+            var topManufacturerProducts = await _productsAppService.GetListRandomAsync(5);
+            var topWatchProduct = await _productsAppService.GetListRandomAsync(5);
+        foreach (var item in topSellerProducts)
             {
                 var manufacturer = await _manufacturersAppService.GetByIdAsync(item.ManufacturerId);
                 item.ManufacturerName = manufacturer.Name;
-            }
-            return new HomeCacheItem()
-            {
-                TopSellerProducts = topSellerProducts,
-                Categories = rootCategories,
-                Manufacturers = allManufacturers
-            };
+            }     
 
-        },
-        () => new DistributedCacheEntryOptions
-        {
-            AbsoluteExpiration = DateTimeOffset.Now.AddHours(12)
-        });
 
-        TopSellerProducts = cacheItem.TopSellerProducts;
-        Categories = cacheItem.Categories;
-        Manufacturers = cacheItem.Manufacturers;
+            TopSellerProducts = topSellerProducts;
+            Categories = rootCategories;
+            Manufacturers = allManufacturers;
+            GetProductRandomList = getProductRandomList;
+            GetTopManufacturerProductList = topManufacturerProducts;
+            TopWatchProduct = topWatchProduct;
 
     }
 }
