@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Store.Public.ProductCategories;
 using Store.Public.Products;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Store.Public.Web.Pages.Products
@@ -10,6 +11,7 @@ namespace Store.Public.Web.Pages.Products
     {
         private readonly IProductsAppService _productsAppService;
         private readonly IProductCategoriesAppService _productCategoriesAppService;
+        public List<ProductInListDto> GetProductRandomList { set; get; }
         public DetailsModel(IProductsAppService productsAppService,
             IProductCategoriesAppService productCategoriesAppService)
         {
@@ -22,6 +24,7 @@ namespace Store.Public.Web.Pages.Products
         {
             Category = await _productCategoriesAppService.GetBySlugAsync(categorySlug);
             Product = await _productsAppService.GetBySlugAsync(slug);
+            GetProductRandomList = await _productsAppService.GetListRandomAsync(5);
         }
     }
 }

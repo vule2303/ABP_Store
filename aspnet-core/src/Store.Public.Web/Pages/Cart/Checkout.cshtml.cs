@@ -18,14 +18,9 @@ namespace Store.Public.Web.Pages.Cart
     public class CheckoutModel : PageModel
     {
         private readonly IOrdersAppService _ordersAppService;
-        private readonly IEmailSender _emailSender;
-        private readonly ITemplateRenderer _templateRenderer;
-        public CheckoutModel(IOrdersAppService ordersAppService, IEmailSender emailSender,
-            ITemplateRenderer templateRenderer)
+        public CheckoutModel(IOrdersAppService ordersAppService)
         {
             _ordersAppService = ordersAppService;
-            _emailSender = emailSender;
-            _templateRenderer = templateRenderer; 
         }
         public List<CartItem> CartItems { get; set; }
 
@@ -34,17 +29,25 @@ namespace Store.Public.Web.Pages.Cart
         [BindProperty]
         public OrderDto Order { set; get; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            CartItems = GetCartItems();
-
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/login.html");
+            }
+            else
+            {
+                CartItems = GetCartItems();
+                return Page();
+            }
         }
 
-        public async Task OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (ModelState.IsValid == false)
+            if (!ModelState.IsValid)
             {
-
+                CartItems = GetCartItems();
+                return Page();
             }
             var cartItems = new List<OrderItemDto>();
             foreach (var item in GetCartItems())
@@ -70,19 +73,13 @@ namespace Store.Public.Web.Pages.Cart
             if (order != null) {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var email = User.GetSpecificClaim(ClaimTypes.Email);
-                    var emailBody = await _templateRenderer.RenderAsync(
-                        EmailTemplates.CreateOrderEmail,
-                        new
-                        {
-                            message = "Đơn hàng của bạn được gửi thành công"
-                        });
-                    await _emailSender.SendAsync(email, "Tạo đơn hàng thành công", emailBody);
-                }
-                CreateStatus = true; 
+                    HttpContext.Session.Remove(StoreConsts.Cart);
+                    CreateStatus = true;
+                }             
             }
             else
                 CreateStatus = false;
+            return Page();
         }
 
         private List<CartItem> GetCartItems()

@@ -11,10 +11,9 @@
 <div class="breadcrumbs-div">
     <div class="container">
     <ul class="breadcrumb">
-        <li><a class="font-xs color-gray-1000" href="index.html">Home</a></li>
-        <li><a class="font-xs color-gray-500" href="shop-grid.html">Electronics</a></li>
-        <li><a class="font-xs color-gray-500" href="shop-grid.html">Cell phone</a></li>
-        <li><a class="font-xs color-gray-500" href="shop-grid.html">Accessories</a></li>
+        <li><a class="font-xs color-gray-1000" href="/">Trang chủ</a></li>
+        <li><a class="font-xs color-gray-500" href="#">@Model.Product.CategoryName</a></li>
+        <li><a class="font-xs color-gray-500" href="#">@Model.Product.Name</a></li>
     </ul>
     </div>
 </div>
@@ -48,17 +47,12 @@
         </div>
         <div class="product-description mt-20 color-gray-900"></div>
         <div class="buy-product mt-20">
-        <p class="font-sm mb-20">Quantity</p>
-        <div class="box-quantity">
-            <div class="input-quantity">
-            <input class="font-xl color-brand-3" type="text" value="1"><span class="minus-cart"></span><span class="plus-cart"></span>
-            </div>
-            <div class="button-buy"><a class="btn btn-cart" href="shop-cart.html">Add to cart</a><a class="btn btn-buy" href="shop-checkout.html">Buy now</a></div>
+        <p class="font-sm mb-20">Số lượng</p>
+        <div class="box-quantity">          
+            <div class="button-buy"><a class="btn btn-cart" href="/shop-cart.html?action=add&id=@Model.Product.Id">Thêm vào giỏ</a></div>
         </div>
         </div>
-        <div class="border-bottom pt-30 mb-20"></div><a class="mr-30" href="shop-wishlist.html"><span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span class="font-md color-gray-900">Add to Wish list</span></a><a href="shop-compare.html"><span class="btn btn-compare mr-5 opacity-100 transform-none"></span><span class="font-md color-gray-900">Add to Compare</span></a>
-        <div class="info-product mt-20 font-md color-gray-900">SKU: EcomTech12321<br>Category: Smartphones<br>Tags: Blue, Smartphone</div>
-        <div class="mt-20"><a class="font-md color-gray-900" href="shop-compare.html">Compare with similar items</a></div>
+        <div class="info-product mt-20 font-md color-gray-900">SKU: @Model.Product.SKU<br>Loại: @Model.Product.CategoryName</div>
     </div>
     </div>
     <div class="border-bottom pt-20 mb-40"></div>
@@ -76,86 +70,10 @@
         <div class="border-bottom pt-30 mb-50"></div>
         <h4 class="color-brand-3">Có thể bạn cũng thích</h4>
         <div class="list-products-5 mt-20">
-        <div class="card-grid-style-3">
-            <div class="card-grid-inner">
-            <div class="tools"><a class="btn btn-trend btn-tooltip mb-10" href="#" aria-label="Trend" data-bs-placement="left"></a><a class="btn btn-wishlist btn-tooltip mb-10" href="shop-wishlist.html" aria-label="Add To Wishlist"></a><a class="btn btn-compare btn-tooltip mb-10" href="shop-compare.html" aria-label="Compare"></a><a class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview" data-bs-toggle="modal"></a></div>
-            <div class="image-box"><span class="label bg-brand-2">-17%</span><a href="shop-single-product-2.html"><img src="/assets/imgs/page/homepage1/imgsp3.png" alt="Ecom"></a></div>
-            <div class="info-right"><a class="font-xs color-gray-500" href="shop-vendor-single.html">Dell</a><br><a class="color-brand-3 font-sm-bold" href="shop-single-product-2.html">Dell Optiplex 9020 Small Form Business Desktop Tower</a>
-                <div class="rating"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                <div class="price-info"><strong class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span class="color-gray-500 price-line">$3225.6</span></div>
-                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="shop-cart.html">Add To Cart</a></div>
-                <ul class="list-features">
-                <li>27-inch (diagonal) Retina 5K display</li>
-                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                <li>AMD Radeon Pro 5300 graphics</li>
-                </ul>
-            </div>
-            </div>
-        </div>
-        <div class="card-grid-style-3">
-            <div class="card-grid-inner">
-            <div class="tools"><a class="btn btn-trend btn-tooltip mb-10" href="#" aria-label="Trend" data-bs-placement="left"></a><a class="btn btn-wishlist btn-tooltip mb-10" href="shop-wishlist.html" aria-label="Add To Wishlist"></a><a class="btn btn-compare btn-tooltip mb-10" href="shop-compare.html" aria-label="Compare"></a><a class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview" data-bs-toggle="modal"></a></div>
-            <div class="image-box"><span class="label bg-brand-2">-17%</span><a href="shop-single-product-2.html"><img src="/assets/imgs/page/homepage1/imgsp4.png" alt="Ecom"></a></div>
-            <div class="info-right"><a class="font-xs color-gray-500" href="shop-vendor-single.html">HP</a><br><a class="color-brand-3 font-sm-bold" href="shop-single-product-2.html">HP 24 All-in-One PC, Intel Core i3-1115G4, 4GB RAM</a>
-                <div class="rating"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                <div class="price-info"><strong class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span class="color-gray-500 price-line">$3225.6</span></div>
-                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="shop-cart.html">Add To Cart</a></div>
-                <ul class="list-features">
-                <li>27-inch (diagonal) Retina 5K display</li>
-                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                <li>AMD Radeon Pro 5300 graphics</li>
-                </ul>
-            </div>
-            </div>
-        </div>
-        <div class="card-grid-style-3">
-            <div class="card-grid-inner">
-            <div class="tools"><a class="btn btn-trend btn-tooltip mb-10" href="#" aria-label="Trend" data-bs-placement="left"></a><a class="btn btn-wishlist btn-tooltip mb-10" href="shop-wishlist.html" aria-label="Add To Wishlist"></a><a class="btn btn-compare btn-tooltip mb-10" href="shop-compare.html" aria-label="Compare"></a><a class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview" data-bs-toggle="modal"></a></div>
-            <div class="image-box"><span class="label bg-brand-2">-17%</span><a href="shop-single-product-2.html"><img src="/assets/imgs/page/homepage1/imgsp5.png" alt="Ecom"></a></div>
-            <div class="info-right"><a class="font-xs color-gray-500" href="shop-vendor-single.html">Gateway</a><br><a class="color-brand-3 font-sm-bold" href="shop-single-product-2.html">Gateway 23.8&quot; All-in-one Desktop, Fully Adjustable</a>
-                <div class="rating"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                <div class="price-info"><strong class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span class="color-gray-500 price-line">$3225.6</span></div>
-                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="shop-cart.html">Add To Cart</a></div>
-                <ul class="list-features">
-                <li>27-inch (diagonal) Retina 5K display</li>
-                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                <li>AMD Radeon Pro 5300 graphics</li>
-                </ul>
-            </div>
-            </div>
-        </div>
-        <div class="card-grid-style-3">
-            <div class="card-grid-inner">
-            <div class="tools"><a class="btn btn-trend btn-tooltip mb-10" href="#" aria-label="Trend" data-bs-placement="left"></a><a class="btn btn-wishlist btn-tooltip mb-10" href="shop-wishlist.html" aria-label="Add To Wishlist"></a><a class="btn btn-compare btn-tooltip mb-10" href="shop-compare.html" aria-label="Compare"></a><a class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview" data-bs-toggle="modal"></a></div>
-            <div class="image-box"><span class="label bg-brand-2">-17%</span><a href="shop-single-product-2.html"><img src="/assets/imgs/page/homepage1/imgsp6.png" alt="Ecom"></a></div>
-            <div class="info-right"><a class="font-xs color-gray-500" href="shop-vendor-single.html">HP</a><br><a class="color-brand-3 font-sm-bold" href="shop-single-product-2.html">HP 22 All-in-One PC, Intel Pentium Silver J5040, 4GB RAM</a>
-                <div class="rating"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                <div class="price-info"><strong class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span class="color-gray-500 price-line">$3225.6</span></div>
-                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="shop-cart.html">Add To Cart</a></div>
-                <ul class="list-features">
-                <li>27-inch (diagonal) Retina 5K display</li>
-                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                <li>AMD Radeon Pro 5300 graphics</li>
-                </ul>
-            </div>
-            </div>
-        </div>
-        <div class="card-grid-style-3">
-            <div class="card-grid-inner">
-            <div class="tools"><a class="btn btn-trend btn-tooltip mb-10" href="#" aria-label="Trend" data-bs-placement="left"></a><a class="btn btn-wishlist btn-tooltip mb-10" href="shop-wishlist.html" aria-label="Add To Wishlist"></a><a class="btn btn-compare btn-tooltip mb-10" href="shop-compare.html" aria-label="Compare"></a><a class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview" data-bs-toggle="modal"></a></div>
-            <div class="image-box"><span class="label bg-brand-2">-17%</span><a href="shop-single-product-2.html"><img src="/assets/imgs/page/homepage1/imgsp7.png" alt="Ecom"></a></div>
-            <div class="info-right"><a class="font-xs color-gray-500" href="shop-vendor-single.html">Sceptre</a><br><a class="color-brand-3 font-sm-bold" href="shop-single-product-2.html">Sceptre 24&quot; Professional Thin 75Hz 1080p LED Monitor</a>
-                <div class="rating"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                <div class="price-info"><strong class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span class="color-gray-500 price-line">$3225.6</span></div>
-                <div class="mt-20 box-btn-cart"><a class="btn btn-cart" href="shop-cart.html">Add To Cart</a></div>
-                <ul class="list-features">
-                <li>27-inch (diagonal) Retina 5K display</li>
-                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                <li>AMD Radeon Pro 5300 graphics</li>
-                </ul>
-            </div>
-            </div>
-        </div>
+            @foreach (var item in Model.GetProductRandomList)
+            {
+                <partial name="_TopSellerProducts" model="item"/>
+            }
         </div>
     </div>
     </div>

@@ -1,0 +1,50 @@
+﻿@using Store.Public.Products
+@using Store.Public.Web.Models
+@model List<CartItem>
+@inject IProductsAppService _productsAppService;
+@{
+    double subTotal = 0;
+    string url;
+    string fileContent;
+    string base64Image;
+}
+
+@if(Model.Count() < 1)
+{
+<div class="d-inline-block box-dropdown-cart">
+    <span class="font-lg icon-list icon-cart"><span>Cart</span><span class="number-item font-xs">0</span></span>
+</div>
+}else
+{
+<div class="d-inline-block box-dropdown-cart">
+<span class="font-lg icon-list icon-cart"><span>Cart</span><span class="number-item font-xs">@Model.Count()</span></span>
+<div class="dropdown-cart">
+    @foreach (var item in Model)
+    {
+        url = $"/products/{item.Product.CategorySlug}/{item.Product.Slug}.html";
+        fileContent = await _productsAppService.GetThumbnailImageAsync(item.Product.ThumbnailPicture);
+        base64Image = Store.Helpers.ImageHelper.ShowBase64(item.Product.ThumbnailPicture, fileContent);
+        subTotal += item.Quantity * item.Product.SellPrice;
+            <div class="item-cart mb-20">
+                <div class="cart-image"><img src="@base64Image" alt="Ecom"></div>
+                <div class="cart-info">
+                    <a class="font-sm-bold color-brand-3" href="@url">@item.Product.Name</a>
+                    <p><span class="color-brand-2 font-sm-bold">@item.Quantity x @String.Format("{0:n0} đ", @item.Product.SellPrice)</span></p>
+                </div> 
+            </div>
+    }
+
+    <div class="border-bottom pt-0 mb-15"></div>
+    <div class="cart-total">
+        <div class="row">
+            <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Tổng</span></div>
+                    <div class="col-6"><span class="font-md-bold color-brand-1">@String.Format("{0:n0} đ", @subTotal)</span></div>
+        </div>
+        <div class="row mt-15">
+            <div class="col-6 text-start"><a class="btn btn-cart w-auto" href="/shop-cart.html">Xem</a></div>
+            <div class="col-6"><a class="btn btn-buy w-auto" href="/check-out.html">Thanh toán</a></div> 
+        </div>
+    </div>
+</div>
+</div>
+}

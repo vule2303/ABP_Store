@@ -9,6 +9,7 @@ using Store.Public.Web.Models;
 using Volo.Abp.Caching;
 using Store.Public.Manufacturers;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Store.Public.Web.Pages;
 
@@ -66,5 +67,23 @@ public class IndexPublicModel : PublicPageModel
             GetTopManufacturerProductList = topManufacturerProducts;
             TopWatchProduct = topWatchProduct;
 
+    }
+    public async Task<IActionResult> OnPostAsync(string code, string keyword, int? pageNumber)
+    {
+        // Kiểm tra nếu keyword bị bỏ trống
+        if (string.IsNullOrEmpty(keyword))
+        {
+            ModelState.AddModelError(string.Empty, "Vui lòng nhập từ khóa tìm kiếm.");
+            await OnGetAsync(); // Tải lại dữ liệu cho trang
+            return RedirectToPage("/");
+        }
+
+        var encodedCode = Uri.EscapeDataString(code);
+        var encodedKeyword = Uri.EscapeDataString(keyword);
+        var encodedPageNumber = pageNumber.HasValue ? pageNumber.Value.ToString() : string.Empty;
+
+        var redirectUrl = $"/search/{encodedCode}/{encodedKeyword}/{encodedPageNumber}";
+
+        return Redirect(redirectUrl);
     }
 }

@@ -1,112 +1,129 @@
 ﻿@page "/shop-cart.html"
+@using Store.Public.Products
 @model Store.Public.Web.Pages.Cart.IndexModel
+@inject IProductsAppService _productsAppService;
 @{
 }
 <div class="section-box">
     <div class="breadcrumbs-div">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a class="font-xs color-gray-1000" href="/">Home</a></li>
-                <li><a class="font-xs color-gray-500" href="shop-grid.html">Shop</a></li>
-                <li><a class="font-xs color-gray-500" href="shop-cart.html">Cart</a></li>
+                <li><a class="font-xs color-gray-1000" href="/">Trang chủ</a></li>
+                <li><a class="font-xs color-gray-500" href="shop-cart.html">Giỏ hàng</a></li>
             </ul>
         </div>
     </div>
 </div>
-<section class="section-box shop-template">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9">
-                <div class="box-carts">
-                    <div class="head-wishlist">
-                        <div class="item-wishlist">
-                            <div class="wishlist-cb">
-                                <input class="cb-layout cb-all" type="checkbox">
-                            </div>
-                            <div class="wishlist-product"><span class="font-md-bold color-brand-3">Sản phẩm</span></div>
-                            <div class="wishlist-price"><span class="font-md-bold color-brand-3">Giá</span></div>
-                            <div class="wishlist-status"><span class="font-md-bold color-brand-3">Số lượng</span></div>
-                            <div class="wishlist-action"><span class="font-md-bold color-brand-3">Tổng</span></div>
-                            <div class="wishlist-remove"><span class="font-md-bold color-brand-3">Xóa</span></div>
-                        </div>
-                    </div>
-                    <form method="post">
-                        <div class="content-wishlist mb-20">
-                            @for (int i = 0; i < Model.CartItems.Count; i++)
-                            {
-                                    <div class="item-wishlist">
-                                        <div class="wishlist-cb">
-                                            <input class="cb-layout cb-select" type="checkbox">
-                                        </div>
-                                        <div class="wishlist-product">
-                                            <div class="product-wishlist">
-                                                <div class="product-image"><a href="shop-single-product.html"><img src="assets/imgs/page/product/img-sub.png" alt="Ecom"></a></div>
-                                                <div class="product-info">
-                                                    <a href="shop-single-product.html">
-                                                        <h6 class="color-brand-3">@Model.CartItems[i].Product.Name</h6>
-                                                        <input hidden asp-for="@Model.CartItems[i].Product.Id" class="form-control" />
-                                                    </a>
-                                                    <div class="rating"><img src="assets/imgs/template/icons/star.svg" alt="Ecom"><img src="assets/imgs/template/icons/star.svg" alt="Ecom"><img src="assets/imgs/template/icons/star.svg" alt="Ecom"><img src="assets/imgs/template/icons/star.svg" alt="Ecom"><img src="assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="wishlist-price">
-                                            <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems[i].Product.SellPrice)</p>
-                                        </div>
-                                        <div class="wishlist-status">
-                                            <div class="box-quantity">
-                                                <div class="input-quantity">
-                                                    <input class="font-xl color-brand-3" type="text" asp-for="CartItems[i].Quantity"><span class="minus-cart"></span><span class="plus-cart"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="wishlist-action">
-                                            <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems[i].Product.SellPrice * @Model.CartItems[i].Quantity)</p>
-                                        </div>
-                                        <div class="wishlist-remove"><a class="btn btn-delete" href="#"></a></div>
-                                    </div>
-                            }
-
-
-                        </div>
-
-                        <div class="row mb-40">
-                            <div class="col-lg-6 col-md-6 col-sm-6-col-6"><a class="btn btn-buy w-auto arrow-back mb-10" href="/">Tiếp tục mua sắm</a></div>
-                            <div class="col-lg-6 col-md-6 col-sm-6-col-6 text-md-end"><button class="btn btn-buy w-auto update-cart mb-10" type="submit">Cập nhật giỏ hàng</button></div>
-                        </div>
-                    </form>
-                </div>
+@if(Model.CartItems.Count() < 1)
+{
+    <section class="section-box shop-template mt-60">
+        <div class="container">
+            <div class="text-center mb-150 mt-50"> 
+            <div class="image-404 mb-50"> <img src="/assets/imgs/page/account/404.png" alt="Ecom"></div>
+            <h3>Giỏ hàng trống, hãy thêm sản phẩm</h3>                           
             </div>
-            <div class="col-lg-3">
-                <div class="summary-cart">
-                    <div class="border-bottom mb-10">
-                        <div class="row">
-                            <div class="col-6"><span class="font-md-bold color-gray-500">Tổng đơn hàng</span></div>
-                            <div class="col-6 text-end">
-                                 <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems.Sum(x => x.Product.SellPrice * x.Quantity))</p>
-                            </div>
+        </div>
+    </section>
+}
+else
+{
+<section class="section-box shop-template">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="box-carts">
+                <div class="head-wishlist">
+                    <div class="item-wishlist">
+                        <div class="wishlist-cb">
+                            <input class="cb-layout cb-all" type="checkbox">
                         </div>
+                        <div class="wishlist-product"><span class="font-md-bold color-brand-3">Sản phẩm</span></div>
+                        <div class="wishlist-price"><span class="font-md-bold color-brand-3">Giá</span></div>
+                        <div class="wishlist-status"><span class="font-md-bold color-brand-3">Số lượng</span></div>
+                        <div class="wishlist-action"><span class="font-md-bold color-brand-3">Tổng</span></div>
+                        <div class="wishlist-remove"><span class="font-md-bold color-brand-3">Xóa</span></div>
                     </div>
-                    <div class="border-bottom mb-10">
-                        <div class="row">
-                            <div class="col-6"><span class="font-md-bold color-gray-500">Phí ship</span></div>
-                            <div class="col-6 text-end">
-                                <p class="font-sm-bold d-inline-block color-brand-3">0đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-10">
-                        <div class="row">
-                            <div class="col-6"><span class="font-md-bold color-gray-500">Tổng thanh toán</span></div>
-                            <div class="col-6 text-end">
-                                <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems.Sum(x => x.Product.SellPrice * x.Quantity))</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box-button"><a class="btn btn-buy" href="/check-out.html">Tiếp tục thanh toán</a></div>
                 </div>
+                <form method="post">
+                    <div class="content-wishlist mb-20">
+                        @for (int i = 0; i < Model.CartItems.Count; i++)
+                        {
+                            var fileContent = await _productsAppService.GetThumbnailImageAsync(Model.CartItems[i].Product.ThumbnailPicture);
+                            var base64Image = Store.Helpers.ImageHelper.ShowBase64(Model.CartItems[i].Product.ThumbnailPicture, fileContent);
+                                <div class="item-wishlist">
+                                    <div class="wishlist-cb">
+                                        <input class="cb-layout cb-select" type="checkbox">
+                                    </div>
+                                    <div class="wishlist-product">
+                                        <div class="product-wishlist">
+                                                    <div class="product-image"><a href="/products/@Model.CartItems[i].Product.CategorySlug/@(Model.CartItems[i].Product.Slug).html"><img src="@base64Image" alt="Ecom"></a></div>
+                                            <div class="product-info">
+                                                    <a href="/products/@Model.CartItems[i].Product.CategorySlug/@(Model.CartItems[i].Product.Slug).html">
+                                                    <h6 class="color-brand-3">@Model.CartItems[i].Product.Name</h6>
+                                                    <input hidden asp-for="@Model.CartItems[i].Product.Id" class="form-control" />
+                                                </a>
+                                                <div class="rating"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="wishlist-price">
+                                        <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems[i].Product.SellPrice)</p>
+                                    </div>
+                                    <div class="wishlist-status">
+                                        <div class="box-quantity">
+                                            <div class="input-quantity">
+                                                <input class="font-xl color-brand-3" type="text" asp-for="CartItems[i].Quantity"><span class="minus-cart"></span><span class="plus-cart"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="wishlist-action">
+                                        <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems[i].Product.SellPrice * @Model.CartItems[i].Quantity)</p>
+                                    </div>
+                                            <div class="wishlist-remove"><a class="btn btn-delete" href="/shop-cart.html?action=remove&id=@Model.CartItems[i].Product.Id"></a></div>
+                                </div>
+                        }
+
+
+                    </div>
+
+                    <div class="row mb-40">
+                        <div class="col-lg-6 col-md-6 col-sm-6-col-6"><a class="btn btn-buy w-auto arrow-back mb-10" href="/">Tiếp tục mua sắm</a></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6-col-6 text-md-end"><button class="btn btn-buy w-auto update-cart mb-10" type="submit">Cập nhật giỏ hàng</button></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="summary-cart">
+                <div class="border-bottom mb-10">
+                    <div class="row">
+                        <div class="col-6"><span class="font-md-bold color-gray-500">Tổng đơn hàng</span></div>
+                        <div class="col-6 text-end">
+                                <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems.Sum(x => x.Product.SellPrice * x.Quantity))</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-bottom mb-10">
+                    <div class="row">
+                        <div class="col-6"><span class="font-md-bold color-gray-500">Phí ship</span></div>
+                        <div class="col-6 text-end">
+                            <p class="font-sm-bold d-inline-block color-brand-3">0đ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-10">
+                    <div class="row">
+                        <div class="col-6"><span class="font-md-bold color-gray-500">Tổng thanh toán</span></div>
+                        <div class="col-6 text-end">
+                            <p class="font-sm-bold d-inline-block color-brand-3">@String.Format("{0:n0} đ", @Model.CartItems.Sum(x => x.Product.SellPrice * x.Quantity))</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-button"><a class="btn btn-buy" href="/check-out.html">Tiếp tục thanh toán</a></div>
             </div>
         </div>
     </div>
+</div>
 </section>
+}

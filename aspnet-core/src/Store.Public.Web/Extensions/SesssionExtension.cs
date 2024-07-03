@@ -19,5 +19,9 @@ namespace Store.Public.Web
             }
             return Encoding.UTF8.GetString(data);
         }
+        public static void Remove(this ISession session, string key)
+        {
+            session.Remove(key);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Store.Public.Products
 
         public double SellPrice { get; set; }
         public Guid Id { get; set; }
-
+        public int Quantity { get; set; }
         public string CategoryName { get; set; }
         public string CategorySlug { get; set; }
     }

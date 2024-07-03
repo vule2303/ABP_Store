@@ -1,4 +1,6 @@
-﻿namespace Store.Public
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Store.Public
 {
     public class BaseListFilterDto : PagedResultRequestBase
     {

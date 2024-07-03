@@ -20,36 +20,26 @@ namespace Store.Public.Web.Pages.Cart
 
         [BindProperty]
         public List<CartItem> CartItems { get; set; }
-        public async Task OnGetAsync(string action, string id)
+        public async Task<IActionResult> OnGetAsync(string action, string id)
         {
-            var cart = HttpContext.Session.GetString(StoreConsts.Cart);
-            var productCarts = new Dictionary<string, CartItem>();
-            if (cart != null)
+            if (!User.Identity.IsAuthenticated)
             {
-                productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart);
+                return Redirect("/login.html");
             }
-            if (!string.IsNullOrEmpty(action))
+            else
             {
-                if (action == "add")
+                var cart = HttpContext.Session.GetString(StoreConsts.Cart);
+                var productCarts = new Dictionary<string, CartItem>();
+                if (cart != null)
                 {
-                    var product = await _productsAppService.GetAsync(Guid.Parse(id));
-                    if (cart == null)
+                    productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart);
+                }
+                if (!string.IsNullOrEmpty(action))
+                {
+                    if (action == "add")
                     {
-                        productCarts.Add(id, new CartItem()
-                        {
-                            Product = product,
-                            Quantity = 1
-                        });
-                        HttpContext.Session.SetString(StoreConsts.Cart, JsonSerializer.Serialize(productCarts));
-                    }
-                    else
-                    {
-                        productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart);
-                        if (productCarts.ContainsKey(id))
-                        {
-                            productCarts[id].Quantity += 1;
-                        }
-                        else
+                        var product = await _productsAppService.GetAsync(Guid.Parse(id));
+                        if (cart == null)
                         {
                             productCarts.Add(id, new CartItem()
                             {
@@ -57,23 +47,36 @@ namespace Store.Public.Web.Pages.Cart
                                 Quantity = 1
                             });
                         }
-                        HttpContext.Session.SetString(StoreConsts.Cart, JsonSerializer.Serialize(productCarts));
+                        else
+                        {
+                            if (productCarts.ContainsKey(id))
+                            {
+                                productCarts[id].Quantity += 1;
+                            }
+                            else
+                            {
+                                productCarts.Add(id, new CartItem()
+                                {
+                                    Product = product,
+                                    Quantity = 1
+                                });
+                            }
+                        }
                     }
-                }
-                else if (action == "remove")
-                {
-                    productCarts = JsonSerializer.Deserialize<Dictionary<string, CartItem>>(cart);
-                    if (productCarts.ContainsKey(id))
+                    else if (action == "remove")
                     {
-                        productCarts.Remove(id);
+                        if (productCarts.ContainsKey(id))
+                        {
+                            productCarts.Remove(id);
+                        }
                     }
 
                     HttpContext.Session.SetString(StoreConsts.Cart, JsonSerializer.Serialize(productCarts));
                 }
+                CartItems = productCarts.Values.ToList();
+                return Page();
+                }
             }
-            CartItems = productCarts.Values.ToList();
-        }
-
         public async Task<IActionResult> OnPostAsync()
         {
             var cart = HttpContext.Session.GetString(StoreConsts.Cart);

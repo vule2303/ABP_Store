@@ -31,21 +31,32 @@
             <div class="header-left">
                 <div class="header-logo"><a class="d-flex" href="/"><img alt="Ecom" src="/assets/imgs/template/logo.svg"></a></div>
                 <div class="header-search">
-                    <div class="box-header-search">
-                        <form class="form-search" method="post" action="#">
+                    <div class="box-header-search"> 
+                       <div class="box-header-search"> 
+                        <form class="form-search" method="post">
                             <div class="box-category">
-                                <select class="select-active select2-hidden-accessible">
-                                    <option>Loại Sản Phẩm</option>
-                                    @foreach (var item in Model)
-                                    {
-                                        <option value="@item.Id">@item.Name</option>
-                                    }
+                                <select class="select-active select2-hidden-accessible" name="code">
+                                    <option value="">Loại Sản Phẩm</option>
+                                        @foreach (var item in Model)
+                                        {
+                                        <option value="@item.Code">@item.Name</option>
+                                        }
                                 </select>
                             </div>
                             <div class="box-keysearch">
-                                <input class="form-control font-xs" type="text" value="" placeholder="Search for items">
+                                <input class="form-control font-xs" type="text" name="keyword" value="" placeholder="Tìm kiếm sản phẩm">
+                                    @if (!ViewData.ModelState.IsValid)
+                                    {
+                                    <div class="alert alert-danger">
+                                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                            {
+                                                <p>@error.ErrorMessage</p>
+                                            }
+                                    </div>
+                                    }
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
                 <div class="header-nav">
@@ -73,13 +84,11 @@
                     <div class="d-inline-block box-dropdown-cart">
                         <span class="font-lg icon-list icon-account"><span>Tài khoản</span></span>
                         <div class="dropdown-account">
-                            <ul>
-                                <li><a href="page-account.html">Tài khoản của tôi</a></li>
+                            <ul>                             
                                 <li><a href="/logout.html">Đăng xuất</a></li>
                             </ul>
                         </div>
                     </div>
-                    <a class="font-lg icon-list icon-wishlist" href="shop-wishlist.html"><span>DS Yêu thích</span><span class="number-item font-xs">5</span></a>
                     }
                     else
                     {                  
@@ -92,36 +101,7 @@
                         </div>
                     </div>
                     }
-                    <div class="d-inline-block box-dropdown-cart">
-                        <span class="font-lg icon-list icon-cart"><span>Cart</span><span class="number-item font-xs">2</span></span>
-                        <div class="dropdown-cart">
-                            <div class="item-cart mb-20">
-                                <div class="cart-image"><img src="/assets/imgs/page/homepage1/imgsp5.png" alt="Ecom"></div>
-                                <div class="cart-info">
-                                    <a class="font-sm-bold color-brand-3" href="shop-single-product.html">2022 Apple iMac with Retina 5K Display 8GB RAM, 256GB SSD</a>
-                                    <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                </div>
-                            </div>
-                            <div class="item-cart mb-20">
-                                <div class="cart-image"><img src="/assets/imgs/page/homepage1/imgsp4.png" alt="Ecom"></div>
-                                <div class="cart-info">
-                                    <a class="font-sm-bold color-brand-3" href="shop-single-product-2.html">2022 Apple iMac with Retina 5K Display 8GB RAM, 256GB SSD</a>
-                                    <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                </div>
-                            </div>
-                            <div class="border-bottom pt-0 mb-15"></div>
-                            <div class="cart-total">
-                                <div class="row">
-                                    <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span></div>
-                                    <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span></div>
-                                </div>
-                                <div class="row mt-15">
-                                    <div class="col-6 text-start"><a class="btn btn-cart w-auto" href="shop-cart.html">Xem</a></div>
-                                    <div class="col-6"><a class="btn btn-buy w-auto" href="check-out.html">Thanh toán</a></div>
-                                </div>
-                            </div>
-                        </div>
-                </div>
+                    <vc:cart></vc:cart>
             </div>
         </div>
     </div>
@@ -146,53 +126,12 @@
                                     }
                                 </ul>
                             </li>
-                            <li class="has-children">
-                                <a href="shop-vendor-list.html">Vendors</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop-vendor-list.html">Vendors Listing</a></li>
-                                    <li><a href="shop-vendor-single.html">Vendor Single</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="#">Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="page-about-us.html">About Us</a></li>
-                                    <li><a href="page-contact.html">Contact Us</a></li>
-                                    <li><a href="page-careers.html">Careers</a></li>
-                                    <li><a href="page-term.html">Term and Condition</a></li>
-                                    <li><a href="page-register.html">Register</a></li>
-                                    <li><a href="page-login.html">Login</a></li>
-                                    <li><a href="page-404.html">Error 404</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="blog.html">Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="blog-2.html">Blog Grid 2</a></li>
-                                    <li><a href="blog-list.html">Blog List</a></li>
-                                    <li><a href="blog-big.html">Blog Big</a></li>
-                                    <li><a href="blog-single.html">Blog Single - Left sidebar</a></li>
-                                    <li><a href="blog-single-2.html">Blog Single - Right sidebar</a></li>
-                                    <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="page-contact.html">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                <div class="mobile-account">
-                    <div class="mobile-header-top">
-                        <div class="user-account">
-                            <a href="page-account.html"><img src="/assets/imgs/template/ava_1.png" alt="Ecom"></a>
-                            <div class="content">
-                                <h6 class="user-name">Chào<span class="text-brand"> Steven !</span></h6>
-                                <p class="font-xs text-muted">Bạn có 3 tin nhắn</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="mobile-account">                  
                     <ul class="mobile-menu">
                         <li><a href="page-account.html">Tài khoản của tôi</a></li>
                         <li><a href="/logout.html">Đăng xuất</a></li>
@@ -211,12 +150,11 @@
                 }
                 <div class="mobile-banner">
                     <div class="bg-5 block-iphone">
-                        <span class="color-brand-3 font-sm-lh32">Starting from $899</span>
+                        <span class="color-brand-3 font-sm-lh32">Chỉ từ 12tr990</span>
                         <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
-                        <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow" href="shop-grid.html">learn more</a>
+                        <p class="font-base color-brand-3 mb-10">Sale</p><a class="btn btn-arrow" href="#">xem thêm</a>
                     </div>
                 </div>
-                <div class="site-copyright color-gray-400 mt-30">Copyright 2022 &copy; Ecom - Marketplace Template.<br>Designed by<a href="http://alithemes.com" target="_blank">&nbsp; AliThemes</a></div>
             </div>
         </div>
     </div>
@@ -244,33 +182,14 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="mobile-account">
-                    <div class="mobile-header-top">
-                        <div class="user-account">
-                            <a href="page-account.html"><img src="/assets/imgs/template/ava_1.png" alt="Ecom"></a>
-                            <div class="content">
-                                <h6 class="user-name">Hello<span class="text-brand"> Steven !</span></h6>
-                                <p class="font-xs text-muted">You have 3 new messages</p>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="mobile-menu">
-                        <li><a href="page-account.html">My Account</a></li>
-                        <li><a href="page-account.html">Order Tracking</a></li>
-                        <li><a href="page-account.html">My Orders</a></li>
-                        <li><a href="page-account.html">My Wishlist</a></li>
-                        <li><a href="page-account.html">Setting</a></li>
-                        <li><a href="page-login.html">Sign out</a></li>
-                    </ul>
-                </div>
+               
                 <div class="mobile-banner">
                     <div class="bg-5 block-iphone">
-                        <span class="color-brand-3 font-sm-lh32">Starting from $899</span>
+                        <span class="color-brand-3 font-sm-lh32">Chỉ từ 12tr990</span>
                         <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
-                        <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow" href="shop-grid.html">learn more</a>
+                        <p class="font-base color-brand-3 mb-10">Sale</p><a class="btn btn-arrow" href="#">Xem thêm</a>
                     </div>
                 </div>
-                <div class="site-copyright color-gray-400 mt-30">Copyright 2022 &copy; Ecom - Marketplace Template.<br>Designed by<a href="http://alithemes.com" target="_blank">&nbsp; AliThemes</a></div>
             </div>
         </div>
     </div>

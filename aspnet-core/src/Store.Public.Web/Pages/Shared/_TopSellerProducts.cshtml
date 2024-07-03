@@ -24,16 +24,16 @@
         <a class="font-xs color-gray-500" href="/manufacturer/@(getManufacturer.Result.Code).html">@Model.ManufacturerName</a>
         <br><a class="color-brand-3 font-sm-bold ellipsis" href="@url">@Model.Name</a>
         <div class="rating">
-            <img src="assets/imgs/template/icons/star.svg" alt="Ecom">
-            <img src="assets/imgs/template/icons/star.svg" alt="Ecom"><img src="assets/imgs/template/icons/star.svg" alt="Ecom">
-            <img src="assets/imgs/template/icons/star.svg" alt="Ecom"><img src="assets/imgs/template/icons/star.svg" alt="Ecom">
+            <img src="/assets/imgs/template/icons/star.svg" alt="Ecom">
+            <img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom">
+            <img src="/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="/assets/imgs/template/icons/star.svg" alt="Ecom">
             <span class="font-xs color-gray-500">(65)</span>
         </div>
         <div class="price-info">
             <strong class="font-lg-bold color-brand-3 price-main">@String.Format("{0:n0}đ", @Model.SellPrice)</strong>
         </div>
         <div class="mt-20 box-btn-cart">
-            <a class="btn btn-cart" href="shop-cart.html">Thêm vào giỏ</a>
+            <a class="btn btn-cart" href="/shop-cart.html?action=add&id=@Model.Id">Thêm vào giỏ</a>
         </div>
         <ul class="list-features">
             <li>@Model.Code</li>

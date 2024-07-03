@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Store.Public.ProductCategories;
 using Store.Public.Products;
 using Store.Public.Manufacturers;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Store.Public.Web.Pages.Products
 {
@@ -49,6 +51,24 @@ namespace Store.Public.Web.Pages.Products
                 }
             }
 
+        }
+        public async Task<IActionResult> OnPostAsync(string code, string keyword, int? pageNumber)
+        {
+            // Kiểm tra nếu keyword bị bỏ trống
+            if (string.IsNullOrEmpty(keyword) || string.IsNullOrEmpty(code))
+            {
+                ModelState.AddModelError(string.Empty, "Vui lòng nhập từ khóa tìm kiếm.");
+
+                return RedirectToPage("/");
+            }
+
+            var encodedCode = Uri.EscapeDataString(code);
+            var encodedKeyword = Uri.EscapeDataString(keyword);
+            var encodedPageNumber = pageNumber.HasValue ? pageNumber.Value.ToString() : string.Empty;
+
+            var redirectUrl = $"/search/{encodedCode}/{encodedKeyword}/{encodedPageNumber}";
+
+            return Redirect(redirectUrl);
         }
     }
 }

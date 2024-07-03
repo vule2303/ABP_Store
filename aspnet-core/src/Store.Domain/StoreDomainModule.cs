@@ -40,7 +40,7 @@ public class StoreDomainModule : AbpModule
         });
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<StoreDomainModule>("Store");
+            options.FileSets.AddEmbedded<StoreDomainModule>("ECOM");
         });
     }
 }
